@@ -146,6 +146,55 @@ contract('Dexert', function (accounts) {
             const aliceBalance = await this.dexert.getTokenBalance(this.token.address, aliceAccount);
             assert.equal(aliceBalance, 0);
         });        
+
+        it('withdraw tokens', async function() {
+            await this.dexert.depositTokens(this.token.address, 100);
+            await this.dexert.withdrawTokens(this.token.address, 40);
+            
+            const tokenBalance = await this.token.balanceOf(ownerAccount);
+            assert.equal(tokenBalance, TOTAL_SUPPLY - 60);
+            
+            const ownerBalance = await this.dexert.getTokenBalance(this.token.address, ownerAccount);
+            assert.equal(ownerBalance, 60);
+            
+            const aliceBalance = await this.dexert.getTokenBalance(this.token.address, aliceAccount);
+            assert.equal(aliceBalance, 0);
+            
+            const bobBalance = await this.dexert.getTokenBalance(this.token.address, bobAccount);
+            assert.equal(bobBalance, 0);
+        });
+
+        it('withdraw all tokens', async function() {
+            await this.dexert.depositTokens(this.token.address, 100);
+            await this.dexert.withdrawTokens(this.token.address, 100);
+            
+            const tokenBalance = await this.token.balanceOf(ownerAccount);
+            assert.equal(tokenBalance, TOTAL_SUPPLY);
+            
+            const ownerBalance = await this.dexert.getTokenBalance(this.token.address, ownerAccount);
+            assert.equal(ownerBalance, 0);
+            
+            const aliceBalance = await this.dexert.getTokenBalance(this.token.address, aliceAccount);
+            assert.equal(aliceBalance, 0);
+            
+            const bobBalance = await this.dexert.getTokenBalance(this.token.address, bobAccount);
+            assert.equal(bobBalance, 0);
+        });
+
+        it('cannot withdraw tokens without enough balance', async function() {
+            try {
+                await this.dexert.withdrawTokens(this.token.address, 100, { from: aliceAccount });
+                assert.fail();
+            }
+            catch (ex) {
+            }
+            
+            const tokenBalance = await this.token.balanceOf(aliceAccount);
+            assert.equal(tokenBalance, 0);
+            
+            const aliceBalance = await this.dexert.getTokenBalance(this.token.address, aliceAccount);
+            assert.equal(aliceBalance, 0);
+        });        
    });
 });
 

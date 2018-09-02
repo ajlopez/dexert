@@ -21,7 +21,7 @@ contract Dexert {
         return balances[addr];
     }
 
-    function depositTokens(ERC20 token, uint amount) payable public returns (bool) {
+    function depositTokens(ERC20 token, uint amount) public returns (bool) {
         require(token.transferFrom(msg.sender, this, amount));
         
         tokenBalances[address(token)][msg.sender] += amount;
@@ -29,6 +29,15 @@ contract Dexert {
         return true;
     }
 
+    function withdrawTokens(ERC20 token, uint amount) public returns (bool) {
+        require(tokenBalances[address(token)][msg.sender] >= amount);
+        require(token.transfer(msg.sender, amount));
+        
+        tokenBalances[address(token)][msg.sender] -= amount;
+        
+        return true;
+    }
+    
     function getTokenBalance(address token, address addr) public view returns (uint) {
         return tokenBalances[token][addr];
     }
