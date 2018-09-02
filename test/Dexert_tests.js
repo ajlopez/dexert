@@ -6,6 +6,8 @@ contract('Dexert', function (accounts) {
     const ownerAccount = accounts[0];
     const aliceAccount = accounts[1];
     const bobAccount = accounts[2];
+    
+    const TOTAL_SUPPLY = 1000000;
 
     beforeEach(async function() {
         this.dexert = await Dexert.new();
@@ -116,6 +118,10 @@ contract('Dexert', function (accounts) {
 
         it('deposit tokens', async function() {
             await this.dexert.depositTokens(this.token.address, 100);
+            
+            const tokenBalance = await this.token.balanceOf(ownerAccount);
+            assert.equal(TOTAL_SUPPLY - 100, tokenBalance.toNumber());
+            
             const ownerBalance = await this.dexert.getTokenBalance(this.token.address, ownerAccount);
             assert.equal(ownerBalance, 100);
             

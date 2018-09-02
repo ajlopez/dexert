@@ -22,6 +22,8 @@ contract Dexert {
     }
 
     function depositTokens(ERC20 token, uint amount) payable public returns (bool) {
+        require(token.transferFrom(msg.sender, this, amount));
+        
         tokenBalances[address(token)][msg.sender] += amount;
         
         return true;
