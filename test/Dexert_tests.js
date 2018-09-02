@@ -61,5 +61,41 @@ contract('Dexert', function (accounts) {
         const bobBalance = await this.dexert.getBalance(bobAccount);
         assert.equal(bobBalance, 0);
     });
+    
+    it('withdraw', async function() {
+        await this.dexert.deposit({ from: aliceAccount, value: 100 });
+
+        const initialAliceEtherBalance = await web3.eth.getBalance(aliceAccount);
+        
+        await this.dexert.withdraw(50, { from: aliceAccount, gasPrice: 0 });
+        
+        const aliceBalance = await this.dexert.getBalance(aliceAccount);
+        assert.equal(aliceBalance, 50);
+        
+        const finalAliceEtherBalance = await web3.eth.getBalance(aliceAccount);
+        assert.ok(initialAliceEtherBalance.add(50).equals(finalAliceEtherBalance));
+    });
+    
+    it('withdraw all balance', async function() {
+        await this.dexert.deposit({ from: aliceAccount, value: 100 });        
+        await this.dexert.withdraw(100, { from: aliceAccount, gasPrice: 0 });
+        
+        const aliceBalance = await this.dexert.getBalance(aliceAccount);
+        assert.equal(aliceBalance, 0);
+     });
+    
+    it('cannot withdraw without enough balance', async function() {
+        await this.dexert.deposit({ from: aliceAccount, value: 100 });
+
+        try {
+            await this.dexert.withdraw(150, { from: aliceAccount, gasPrice: 0 });
+            assert.fail();
+        }
+        catch (ex) {
+        };
+        
+        const aliceBalance = await this.dexert.getBalance(aliceAccount);
+        assert.equal(aliceBalance, 100);
+    });
 });
 
