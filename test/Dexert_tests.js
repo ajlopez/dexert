@@ -113,6 +113,18 @@ contract('Dexert', function (accounts) {
             const bobBalance = await this.dexert.getTokenBalance(this.token.address, bobAccount);
             assert.equal(bobBalance, 0);
         });
+
+        it('deposit tokens', async function() {
+            await this.dexert.depositTokens(this.token.address, 100);
+            const ownerBalance = await this.dexert.getTokenBalance(this.token.address, ownerAccount);
+            assert.equal(ownerBalance, 100);
+            
+            const aliceBalance = await this.dexert.getTokenBalance(this.token.address, aliceAccount);
+            assert.equal(aliceBalance, 0);
+            
+            const bobBalance = await this.dexert.getTokenBalance(this.token.address, bobAccount);
+            assert.equal(bobBalance, 0);
+        });
     });
 });
 

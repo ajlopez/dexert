@@ -1,5 +1,7 @@
 pragma solidity ^0.4.24;
 
+import "./ERC20.sol";
+
 contract Dexert {
     mapping (address => uint) private balances;
     mapping (address => mapping (address => uint)) private tokenBalances;
@@ -14,12 +16,18 @@ contract Dexert {
         msg.sender.transfer(amount);
         return true;
     }
-
-    function getTokenBalance(address token, address addr) public view returns (uint) {
-        return tokenBalances[token][addr];
-    }
     
     function getBalance(address addr) public view returns (uint) {
         return balances[addr];
+    }
+
+    function depositTokens(ERC20 token, uint amount) payable public returns (bool) {
+        tokenBalances[address(token)][msg.sender] += amount;
+        
+        return true;
+    }
+
+    function getTokenBalance(address token, address addr) public view returns (uint) {
+        return tokenBalances[token][addr];
     }
 }
