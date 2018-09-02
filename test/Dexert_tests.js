@@ -196,5 +196,25 @@ contract('Dexert', function (accounts) {
             assert.equal(aliceBalance, 0);
         });        
    });
+   
+   describe('orders', function() {
+       it('no buying orders', async function() {
+           const orders = await this.dexert.getBuyingOrders(this.token.address, { from: aliceAccount });
+           
+           assert.ok(orders);
+           assert.equal(orders.length, 2);
+           assert.equal(orders[0].length, 0);
+           assert.equal(orders[1].length, 0);
+       });
+
+       it('no selling orders', async function() {
+           const orders = await this.dexert.getSellingOrders(this.token.address, { from: aliceAccount });
+           
+           assert.ok(orders);
+           assert.equal(orders.length, 2);
+           assert.equal(orders[0].length, 0);
+           assert.equal(orders[1].length, 0);
+       });
+   });
 });
 
