@@ -33,7 +33,7 @@ contract('Dexert', function (accounts) {
         const bobBalance = await this.dexert.getBalance(bobAccount);
         assert.equal(bobBalance, 0);
     });
- 
+    
     it('two deposits', async function() {
         await this.dexert.deposit({ from: aliceAccount, value: 100 });
         await this.dexert.deposit({ from: bobAccount, value: 200 });
@@ -46,6 +46,20 @@ contract('Dexert', function (accounts) {
         
         const bobBalance = await this.dexert.getBalance(bobAccount);
         assert.equal(bobBalance, 200);
+    });
+    
+    it('two deposits to the same account', async function() {
+        await this.dexert.deposit({ from: aliceAccount, value: 100 });
+        await this.dexert.deposit({ from: aliceAccount, value: 200 });
+        
+        const ownerBalance = await this.dexert.getBalance(ownerAccount);
+        assert.equal(ownerBalance, 0);
+        
+        const aliceBalance = await this.dexert.getBalance(aliceAccount);
+        assert.equal(aliceBalance, 300);
+        
+        const bobBalance = await this.dexert.getBalance(bobAccount);
+        assert.equal(bobBalance, 0);
     });
 });
 
