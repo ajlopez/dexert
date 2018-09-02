@@ -1,5 +1,6 @@
 
 const Dexert = artifacts.require('./Dexert.sol');
+const Token = artifacts.require('./Token.sol');
 
 contract('Dexert', function (accounts) {
     const ownerAccount = accounts[0];
@@ -8,6 +9,7 @@ contract('Dexert', function (accounts) {
 
     beforeEach(async function() {
         this.dexert = await Dexert.new();
+        this.token = await Token.new();
     });
 
     describe('transfer value', function() {
@@ -97,6 +99,19 @@ contract('Dexert', function (accounts) {
             
             const aliceBalance = await this.dexert.getBalance(aliceAccount);
             assert.equal(aliceBalance, 100);
+        });
+    });
+    
+    describe('transfer tokens', function() {
+        it('initial token balances are zero', async function() {
+            const ownerBalance = await this.dexert.getTokenBalance(this.token.address, ownerAccount);
+            assert.equal(ownerBalance, 0);
+            
+            const aliceBalance = await this.dexert.getTokenBalance(this.token.address, aliceAccount);
+            assert.equal(aliceBalance, 0);
+            
+            const bobBalance = await this.dexert.getTokenBalance(this.token.address, bobAccount);
+            assert.equal(bobBalance, 0);
         });
     });
 });
