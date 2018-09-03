@@ -14,8 +14,8 @@ contract Dexert {
     
     mapping (address => Balance) private balances;
     mapping (address => mapping (address => Balance)) private tokenBalances;
-    mapping (address => mapping (address => Order[])) private selling;
-    mapping (address => mapping (address => Order[])) private buying;
+    mapping (address => Order[]) private ordersByAccount;
+    mapping (address => Order[]) private ordersByToken;
     
     function deposit() payable public {
         balances[msg.sender].available += msg.value;
@@ -56,19 +56,15 @@ contract Dexert {
     }
     
     function sellTokens(address token, uint amount, uint price) public returns (bool) {
-        selling[address(token)][msg.sender].push(Order(amount, price));
-        
         return true;
     }
     
     function buyTokens(address token, uint amount, uint price) public returns (bool) {
-        buying[token][msg.sender].push(Order(amount, price));
-
         return true;
     }
     
-    function getSellingOrders(address token) public constant returns(uint[], uint[]) {
-        Order[] storage orders = selling[token][msg.sender];
+    function getOrdersByAccount(address account) public constant returns(uint[], uint[]) {
+        Order[] storage orders = ordersByAccount[account];
         uint norders = orders.length;
         
         uint[] memory amounts = new uint[](norders);
@@ -84,8 +80,8 @@ contract Dexert {
         return (amounts, prices);
     }
     
-    function getBuyingOrders(address token) public constant returns(uint[], uint[]) {
-        Order[] storage orders = buying[token][msg.sender];
+    function getOrdersByToken(address token) public constant returns(uint[], uint[]) {
+        Order[] storage orders = ordersByToken[token];
         uint norders = orders.length;
         
         uint[] memory amounts = new uint[](norders);

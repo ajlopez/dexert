@@ -198,8 +198,8 @@ contract('Dexert', function (accounts) {
    });
    
    describe('orders', function() {
-       it('no buying orders', async function() {
-           const orders = await this.dexert.getBuyingOrders(this.token.address, { from: aliceAccount });
+       it('orders by account', async function() {
+           const orders = await this.dexert.getOrdersByAccount(aliceAccount, { from: bobAccount });
            
            assert.ok(orders);
            assert.equal(orders.length, 2);
@@ -207,8 +207,8 @@ contract('Dexert', function (accounts) {
            assert.equal(orders[1].length, 0);
        });
 
-       it('no selling orders', async function() {
-           const orders = await this.dexert.getSellingOrders(this.token.address, { from: aliceAccount });
+       it('orders by token', async function() {
+           const orders = await this.dexert.getOrdersByToken(this.token.address, { from: aliceAccount });
            
            assert.ok(orders);
            assert.equal(orders.length, 2);
