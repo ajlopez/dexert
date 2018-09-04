@@ -13,6 +13,7 @@ contract Dexert {
     }
 
     uint public lastOrderId;
+    
     mapping (address => Balance) private balances;
     mapping (address => mapping (address => Balance)) private tokenBalances;
     mapping (address => Order[]) private ordersByAccount;
@@ -79,6 +80,10 @@ contract Dexert {
         }
         
         return (amounts, prices);
+    }
+    
+    function getOrderById(uint id) public constant returns(address account, address token, uint amount, uint price, bool buying) {
+        return (address(0), address(0), 0, 0, false);
     }
     
     function getOrdersByToken(address token) public constant returns(uint[], uint[]) {

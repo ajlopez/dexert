@@ -219,7 +219,19 @@ contract('Dexert', function (accounts) {
        it('last order id is zero', async function() {
            const lastOrderId = await this.dexert.lastOrderId({ from: aliceAccount });
            
-           assert.equal(lastOrderId, 0);
+           assert.equal(lastOrderId, 0  );
+       });
+
+       it('get no order', async function() {
+           const order = await this.dexert.getOrderById(1, { from: aliceAccount });
+           
+           assert.ok(order);
+           assert.ok(order.length);
+           assert.equal(order[0], 0);
+           assert.equal(order[1], 0);
+           assert.equal(order[2], 0);
+           assert.equal(order[3], 0);
+           assert.equal(order[4], 0);
        });
     });
 });
