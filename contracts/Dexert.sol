@@ -11,7 +11,8 @@ contract Dexert {
         uint amount;
         uint price;
     }
-    
+
+    uint public lastOrderId;
     mapping (address => Balance) private balances;
     mapping (address => mapping (address => Balance)) private tokenBalances;
     mapping (address => Order[]) private ordersByAccount;

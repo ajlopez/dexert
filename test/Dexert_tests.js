@@ -215,6 +215,12 @@ contract('Dexert', function (accounts) {
            assert.equal(orders[0].length, 0);
            assert.equal(orders[1].length, 0);
        });
-   });
+
+       it('last order id is zero', async function() {
+           const lastOrderId = await this.dexert.lastOrderId({ from: aliceAccount });
+           
+           assert.equal(lastOrderId, 0);
+       });
+    });
 });
 
