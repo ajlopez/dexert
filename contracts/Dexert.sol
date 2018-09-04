@@ -8,14 +8,19 @@ contract Dexert {
     }
     
     struct Order {
+        address token;
+        address account;
         uint amount;
         uint price;
+        bool buying;
     }
 
     uint public lastOrderId;
     
     mapping (address => Balance) private balances;
     mapping (address => mapping (address => Balance)) private tokenBalances;
+
+    mapping (uint => Order) private ordersById;
     mapping (address => Order[]) private ordersByAccount;
     mapping (address => Order[]) private ordersByToken;
     
@@ -62,6 +67,10 @@ contract Dexert {
     }
     
     function buyTokens(address token, uint amount, uint price) public returns (bool) {
+        Order memory order = Order(token, msg.sender, amount, price, true);
+        
+        uint orderId = ++lastOrderId;
+        
         return true;
     }
     
@@ -83,7 +92,9 @@ contract Dexert {
     }
     
     function getOrderById(uint id) public constant returns(address account, address token, uint amount, uint price, bool buying) {
-        return (address(0), address(0), 0, 0, false);
+        Order storage order = ordersById[id];
+        
+        return (order.token, order.account, order.amount, order.price, order.buying);
     }
     
     function getOrdersByToken(address token) public constant returns(uint[], uint[]) {
