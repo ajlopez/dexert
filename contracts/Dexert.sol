@@ -5,6 +5,7 @@ import "./ERC20.sol";
 contract Dexert {
     struct Balance {
         uint available;
+        uint reserved;
     }
     
     struct Order {
@@ -41,6 +42,10 @@ contract Dexert {
         return balances[addr].available;
     }
 
+    function getReserved(address addr) public view returns (uint) {
+        return balances[addr].reserved;
+    }
+
     function depositTokens(ERC20 token, uint amount) public returns (bool) {
         require(token.transferFrom(msg.sender, this, amount));
         
@@ -68,8 +73,11 @@ contract Dexert {
     
     function buyTokens(address token, uint amount, uint price) public returns (bool) {
         Order memory order = Order(token, msg.sender, amount, price, true);
+
+        uint total = amount * price;
         
-        balances[msg.sender].available -= amount * price;
+        balances[msg.sender].available -= total;
+        balances[msg.sender].reserved += total;
         
         uint orderId = ++lastOrderId;
         

@@ -236,11 +236,13 @@ contract('Dexert', function (accounts) {
        
        it('buy order', async function () {
            await this.dexert.deposit({ from: aliceAccount, value: 200 });
-           await this.dexert.buyTokens(this.token.address, 100, 1, { from: aliceAccount });
+           await this.dexert.buyTokens(this.token.address, 50, 2, { from: aliceAccount });
            
-           const aliceBalance = await this.dexert.getBalance(aliceAccount);
-           
+           const aliceBalance = await this.dexert.getBalance(aliceAccount);           
            assert.equal(aliceBalance, 100);
+
+           const aliceReserved = await this.dexert.getReserved(aliceAccount);           
+           assert.equal(aliceReserved, 100);
 
            const lastOrderId = await this.dexert.lastOrderId();
            
@@ -252,8 +254,8 @@ contract('Dexert', function (accounts) {
            assert.ok(order.length);
            assert.equal(order[0], this.token.address);
            assert.equal(order[1], aliceAccount);
-           assert.equal(order[2], 100);
-           assert.equal(order[3], 1);
+           assert.equal(order[2], 50);
+           assert.equal(order[3], 2);
            assert.ok(order[4]);
         });
     });
