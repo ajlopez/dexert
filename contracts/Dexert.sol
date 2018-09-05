@@ -69,7 +69,11 @@ contract Dexert {
     function buyTokens(address token, uint amount, uint price) public returns (bool) {
         Order memory order = Order(token, msg.sender, amount, price, true);
         
+        balances[msg.sender].available -= amount * price;
+        
         uint orderId = ++lastOrderId;
+        
+        ordersById[orderId] = order;
         
         return true;
     }
