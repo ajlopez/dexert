@@ -67,7 +67,20 @@ contract Dexert {
         return tokenBalances[token][addr].available;
     }
     
+    function getReservedTokens(address token, address addr) public view returns (uint) {
+        return tokenBalances[token][addr].reserved;
+    }
+    
     function sellTokens(address token, uint amount, uint price) public returns (bool) {
+        Order memory order = Order(token, msg.sender, amount, price, false);
+        
+        tokenBalances[token][msg.sender].available -= amount;
+        tokenBalances[token][msg.sender].reserved += amount;
+        
+        uint orderId = ++lastOrderId;
+        
+        ordersById[orderId] = order;
+        
         return true;
     }
     

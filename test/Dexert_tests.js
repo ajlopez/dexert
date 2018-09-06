@@ -258,6 +258,32 @@ contract('Dexert', function (accounts) {
            assert.equal(order[3], 2);
            assert.ok(order[4]);
         });
+
+        it('sell order', async function () {
+           await this.token.transfer(bobAccount, 500); 
+           await this.dexert.depositTokens(this.token.address, 200, { from: bobAccount });
+           await this.dexert.sellTokens(this.token.address, 50, 2, { from: bobAccount });
+           
+           const bobTokenBalance = await this.dexert.getTokenBalance(this.token.address, bobAccount);           
+           assert.equal(bobTokenBalance, 150);
+
+           const bobReservedTokens = await this.dexert.getReservedTokens(this.token.address, bobAccount);           
+           assert.equal(bobReservedTokens, 50);
+
+           const lastOrderId = await this.dexert.lastOrderId();
+           
+           assert.equal(lastOrderId, 1);
+           
+           const order = await this.dexert.getOrderById(1);
+           
+           assert.ok(order);
+           assert.ok(order.length);
+           assert.equal(order[0], this.token.address);
+           assert.equal(order[1], bobAccount);
+           assert.equal(order[2], 50);
+           assert.equal(order[3], 2);
+           assert.equal(order[4], false);
+        });
     });
 });
 
