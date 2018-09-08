@@ -268,6 +268,16 @@ contract('Dexert', function (accounts) {
             }
             catch (ex) {
             }
+
+            const aliceBalance = await this.dexert.getBalance(aliceAccount);           
+            assert.equal(aliceBalance, 50);
+
+            const aliceReserved = await this.dexert.getReserved(aliceAccount);           
+            assert.equal(aliceReserved, 0);
+
+            const lastOrderId = await this.dexert.lastOrderId();
+           
+            assert.equal(lastOrderId, 0);
         });
 
         it('sell order', async function () {
@@ -306,6 +316,16 @@ contract('Dexert', function (accounts) {
             }
             catch (ex) {
             }
+           
+            const bobTokenBalance = await this.dexert.getTokenBalance(this.token.address, bobAccount);           
+            assert.equal(bobTokenBalance, 20);
+
+            const bobReservedTokens = await this.dexert.getReservedTokens(this.token.address, bobAccount);           
+            assert.equal(bobReservedTokens, 0);
+
+            const lastOrderId = await this.dexert.lastOrderId();
+           
+            assert.equal(lastOrderId, 0);
         });
     });
 });

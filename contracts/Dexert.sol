@@ -72,6 +72,8 @@ contract Dexert {
     }
     
     function sellTokens(address token, uint amount, uint price) public returns (bool) {
+        require(tokenBalances[token][msg.sender].available >= amount);
+        
         Order memory order = Order(token, msg.sender, amount, price, false);
         
         tokenBalances[token][msg.sender].available -= amount;
@@ -85,9 +87,11 @@ contract Dexert {
     }
     
     function buyTokens(address token, uint amount, uint price) public returns (bool) {
-        Order memory order = Order(token, msg.sender, amount, price, true);
-
         uint total = amount * price;
+        
+        require(balances[msg.sender].available >= total);
+        
+        Order memory order = Order(token, msg.sender, amount, price, true);
         
         balances[msg.sender].available -= total;
         balances[msg.sender].reserved += total;
