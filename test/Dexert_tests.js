@@ -209,8 +209,8 @@ contract('Dexert', function (accounts) {
             assert.equal(orders[3].length, 0);
         });
 
-        it('orders by token', async function() {
-            const orders = await this.dexert.getOrdersByToken(this.token.address, { from: aliceAccount });
+        it('buy orders by token', async function() {
+            const orders = await this.dexert.getBuyOrdersByToken(this.token.address, { from: aliceAccount });
            
             assert.ok(orders);
             assert.equal(orders.length, 4);
@@ -220,6 +220,17 @@ contract('Dexert', function (accounts) {
             assert.equal(orders[3].length, 0);
         });
 
+        it('sell orders by token', async function() {
+            const orders = await this.dexert.getSellOrdersByToken(this.token.address, { from: aliceAccount });
+           
+            assert.ok(orders);
+            assert.equal(orders.length, 4);
+            assert.equal(orders[0].length, 0);
+            assert.equal(orders[1].length, 0);
+            assert.equal(orders[2].length, 0);
+            assert.equal(orders[3].length, 0);
+        });
+        
         it('last order id is zero', async function() {
             const lastOrderId = await this.dexert.lastOrderId({ from: aliceAccount });
            

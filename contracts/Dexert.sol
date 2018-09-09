@@ -23,7 +23,9 @@ contract Dexert {
 
     mapping (uint => Order) private ordersById;
     mapping (address => Order[]) private ordersByAccount;
-    mapping (address => Order[]) private ordersByToken;
+
+    mapping (address => uint[]) private buyOrdersByToken;
+    mapping (address => uint[]) private sellOrdersByToken;
     
     function deposit() payable public {
         balances[msg.sender].available += msg.value;
@@ -130,25 +132,48 @@ contract Dexert {
         return (tokens, amounts, prices, buyings);
     }
     
-    function getOrdersByToken(address token) public constant returns(address[] accounts, uint[] amounts, uint[] prices, bool[] buyings) {
-        Order[] storage orders = ordersByToken[token];
+    function getBuyOrdersByToken(address token) public constant returns(uint[] ids, address[] accounts, uint[] amounts, uint[] prices) {
+        uint[] storage orders = buyOrdersByToken[token];
         uint norders = orders.length;
         
+        ids = new uint[](norders);
         accounts = new address[](norders);
         amounts = new uint[](norders);
         prices = new uint[](norders);
-        buyings = new bool[](norders);
         
         for (uint16 k = 0; k < orders.length; k++) {
-            Order storage order = orders[k];
+            uint id = orders[k];
+            Order storage order = ordersById[k];
             
+            ids[k] = id;
             accounts[k] = order.account;
             amounts[k] = order.amount;
             prices[k] = order.price;
-            buyings[k] = order.buying;
         }
         
-        return (accounts, amounts, prices, buyings);
+        return (ids, accounts, amounts, prices);
+    }
+    
+    function getSellOrdersByToken(address token) public constant returns(uint[] ids, address[] accounts, uint[] amounts, uint[] prices) {
+        uint[] storage orders = sellOrdersByToken[token];
+        uint norders = orders.length;
+        
+        ids = new uint[](norders);
+        accounts = new address[](norders);
+        amounts = new uint[](norders);
+        prices = new uint[](norders);
+        
+        for (uint16 k = 0; k < orders.length; k++) {
+            uint id = orders[k];
+            Order storage order = ordersById[k];
+            
+            ids[k] = id;
+            accounts[k] = order.account;
+            amounts[k] = order.amount;
+            prices[k] = order.price;
+        }
+        
+        return (ids, accounts, amounts, prices);
     }
 }
 
