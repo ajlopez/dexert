@@ -202,9 +202,11 @@ contract('Dexert', function (accounts) {
             const orders = await this.dexert.getOrdersByAccount(aliceAccount, { from: bobAccount });
            
             assert.ok(orders);
-            assert.equal(orders.length, 2);
+            assert.equal(orders.length, 4);
             assert.equal(orders[0].length, 0);
             assert.equal(orders[1].length, 0);
+            assert.equal(orders[2].length, 0);
+            assert.equal(orders[3].length, 0);
         });
 
         it('orders by token', async function() {
