@@ -85,6 +85,8 @@ contract Dexert {
         
         ordersById[orderId] = order;
         
+        sellOrdersByToken[token].push(orderId);
+        
         return true;
     }
     
@@ -143,7 +145,8 @@ contract Dexert {
         
         for (uint16 k = 0; k < orders.length; k++) {
             uint id = orders[k];
-            Order storage order = ordersById[k];
+            
+            Order storage order = ordersById[id];
             
             ids[k] = id;
             accounts[k] = order.account;
@@ -165,7 +168,8 @@ contract Dexert {
         
         for (uint16 k = 0; k < orders.length; k++) {
             uint id = orders[k];
-            Order storage order = ordersById[k];
+
+            Order storage order = ordersById[id];
             
             ids[k] = id;
             accounts[k] = order.account;

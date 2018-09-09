@@ -319,6 +319,23 @@ contract('Dexert', function (accounts) {
             assert.equal(order[2], 50);
             assert.equal(order[3], 2);
             assert.equal(order[4], false);
+            
+            const orders = await this.dexert.getSellOrdersByToken(this.token.address);
+            
+            assert.ok(orders);
+            assert.equal(orders.length, 4);
+            
+            assert.equal(orders[0].length, 1);
+            assert.equal(orders[0][0].toNumber(), lastOrderId.toNumber());
+            
+            assert.equal(orders[1].length, 1);
+            assert.equal(orders[1][0], bobAccount);
+            
+            assert.equal(orders[2].length, 1);
+            assert.equal(orders[2][0], 50);
+            
+            assert.equal(orders[3].length, 1);
+            assert.equal(orders[3][0], 2);
         });
 
         it('cannot put a sell order without enough tokens', async function () {
