@@ -104,6 +104,8 @@ contract Dexert {
         
         ordersById[orderId] = order;
         
+        buyOrdersByToken[token].push(orderId);
+
         return true;
     }
     

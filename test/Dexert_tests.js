@@ -272,6 +272,23 @@ contract('Dexert', function (accounts) {
             assert.equal(order[2], 50);
             assert.equal(order[3], 2);
             assert.ok(order[4]);
+            
+            const orders = await this.dexert.getBuyOrdersByToken(this.token.address);
+            
+            assert.ok(orders);
+            assert.equal(orders.length, 4);
+            
+            assert.equal(orders[0].length, 1);
+            assert.equal(orders[0][0], 1);
+            
+            assert.equal(orders[1].length, 1);
+            assert.equal(orders[1][0], aliceAccount);
+            
+            assert.equal(orders[2].length, 1);
+            assert.equal(orders[2][0], 50);
+            
+            assert.equal(orders[3].length, 1);
+            assert.equal(orders[3][0], 2);
         });
 
        it('cannot put a buy order without enough balance', async function () {
@@ -326,7 +343,7 @@ contract('Dexert', function (accounts) {
             assert.equal(orders.length, 4);
             
             assert.equal(orders[0].length, 1);
-            assert.equal(orders[0][0].toNumber(), lastOrderId.toNumber());
+            assert.equal(orders[0][0], 1);
             
             assert.equal(orders[1].length, 1);
             assert.equal(orders[1][0], bobAccount);
