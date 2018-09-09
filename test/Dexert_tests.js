@@ -213,9 +213,11 @@ contract('Dexert', function (accounts) {
             const orders = await this.dexert.getOrdersByToken(this.token.address, { from: aliceAccount });
            
             assert.ok(orders);
-            assert.equal(orders.length, 2);
+            assert.equal(orders.length, 4);
             assert.equal(orders[0].length, 0);
             assert.equal(orders[1].length, 0);
+            assert.equal(orders[2].length, 0);
+            assert.equal(orders[3].length, 0);
         });
 
         it('last order id is zero', async function() {

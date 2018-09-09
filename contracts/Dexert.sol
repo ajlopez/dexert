@@ -103,6 +103,12 @@ contract Dexert {
         return true;
     }
     
+    function getOrderById(uint id) public constant returns(address account, address token, uint amount, uint price, bool buying) {
+        Order storage order = ordersById[id];
+        
+        return (order.token, order.account, order.amount, order.price, order.buying);
+    }
+    
     function getOrdersByAccount(address account) public constant returns(address[] tokens, uint[] amounts, uint[] prices, bool[] buyings) {
         Order[] storage orders = ordersByAccount[account];
         uint norders = orders.length;
@@ -114,6 +120,7 @@ contract Dexert {
         
         for (uint16 k = 0; k < orders.length; k++) {
             Order storage order = orders[k];
+            
             tokens[k] = order.token;
             amounts[k] = order.amount;
             prices[k] = order.price;
@@ -123,27 +130,25 @@ contract Dexert {
         return (tokens, amounts, prices, buyings);
     }
     
-    function getOrderById(uint id) public constant returns(address account, address token, uint amount, uint price, bool buying) {
-        Order storage order = ordersById[id];
-        
-        return (order.token, order.account, order.amount, order.price, order.buying);
-    }
-    
-    function getOrdersByToken(address token) public constant returns(uint[], uint[]) {
+    function getOrdersByToken(address token) public constant returns(address[] accounts, uint[] amounts, uint[] prices, bool[] buyings) {
         Order[] storage orders = ordersByToken[token];
         uint norders = orders.length;
         
-        uint[] memory amounts = new uint[](norders);
-        uint[] memory prices = new uint[](norders);
-        
+        accounts = new address[](norders);
+        amounts = new uint[](norders);
+        prices = new uint[](norders);
+        buyings = new bool[](norders);
         
         for (uint16 k = 0; k < orders.length; k++) {
             Order storage order = orders[k];
+            
+            accounts[k] = order.account;
             amounts[k] = order.amount;
             prices[k] = order.price;
+            buyings[k] = order.buying;
         }
         
-        return (amounts, prices);
+        return (accounts, amounts, prices, buyings);
     }
 }
 
