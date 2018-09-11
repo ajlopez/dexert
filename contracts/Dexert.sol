@@ -1,8 +1,11 @@
 pragma solidity ^0.4.24;
 
 import "./ERC20.sol";
+import "./SafeMath.sol";
 
 contract Dexert {
+    using SafeMath for uint256;
+    
     struct Balance {
         uint available;
         uint reserved;
@@ -28,13 +31,13 @@ contract Dexert {
     mapping (address => uint[]) private sellOrdersByToken;
     
     function deposit() payable public {
-        balances[msg.sender].available += msg.value;
+        balances[msg.sender].available = balances[msg.sender].available.add(msg.value);
     }
     
     function withdraw(uint amount) public returns (bool) {
         require(balances[msg.sender].available >= amount);
         
-        balances[msg.sender].available -= amount;
+        balances[msg.sender].available = balances[msg.sender].available.sub(amount);
         msg.sender.transfer(amount);
         
         return true;
@@ -51,7 +54,7 @@ contract Dexert {
     function depositTokens(ERC20 token, uint amount) public returns (bool) {
         require(token.transferFrom(msg.sender, this, amount));
         
-        tokenBalances[address(token)][msg.sender].available += amount;
+        tokenBalances[address(token)][msg.sender].available = tokenBalances[address(token)][msg.sender].available.add(amount);
         
         return true;
     }
@@ -60,7 +63,7 @@ contract Dexert {
         require(tokenBalances[address(token)][msg.sender].available >= amount);
         require(token.transfer(msg.sender, amount));
         
-        tokenBalances[address(token)][msg.sender].available -= amount;
+        tokenBalances[address(token)][msg.sender].available = tokenBalances[address(token)][msg.sender].available.sub(amount);
         
         return true;
     }
@@ -78,8 +81,8 @@ contract Dexert {
         
         Order memory order = Order(token, msg.sender, amount, price, false);
         
-        tokenBalances[token][msg.sender].available -= amount;
-        tokenBalances[token][msg.sender].reserved += amount;
+        tokenBalances[token][msg.sender].available = tokenBalances[token][msg.sender].available.sub(amount);
+        tokenBalances[token][msg.sender].reserved = tokenBalances[token][msg.sender].reserved.add(amount);
         
         uint orderId = ++lastOrderId;
         
@@ -97,8 +100,8 @@ contract Dexert {
         
         Order memory order = Order(token, msg.sender, amount, price, true);
         
-        balances[msg.sender].available -= total;
-        balances[msg.sender].reserved += total;
+        balances[msg.sender].available = balances[msg.sender].available.sub(total);
+        balances[msg.sender].reserved = balances[msg.sender].reserved.add(total);
         
         uint orderId = ++lastOrderId;
         
