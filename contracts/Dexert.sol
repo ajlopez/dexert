@@ -76,6 +76,17 @@ contract Dexert {
         return tokenBalances[token][addr].reserved;
     }
     
+    function cancelOrder(uint id) public {
+        Order storage order = ordersById[id];
+        
+        uint total = order.price.mul(order.amount);
+        
+        balances[order.account].reserved = balances[order.account].reserved.sub(total);
+        balances[order.account].available = balances[order.account].available.add(total);
+        
+        delete(ordersById[id]);
+    }
+    
     function sellTokens(address token, uint amount, uint price) public returns (bool) {
         require(tokenBalances[token][msg.sender].available >= amount);
         

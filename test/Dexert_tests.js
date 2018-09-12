@@ -291,6 +291,49 @@ contract('Dexert', function (accounts) {
             assert.equal(orders[3][0], 2);
         });
 
+        it('buy and cancel order', async function () {
+            await this.dexert.deposit({ from: aliceAccount, value: 200 });
+            await this.dexert.buyTokens(this.token.address, 50, 2, { from: aliceAccount });
+
+            const lastOrderId = await this.dexert.lastOrderId();
+
+            await this.dexert.cancelOrder(lastOrderId, { from: aliceAccount });
+            
+            const aliceBalance = await this.dexert.getBalance(aliceAccount);           
+            assert.equal(aliceBalance, 200);
+
+            const aliceReserved = await this.dexert.getReserved(aliceAccount);           
+            assert.equal(aliceReserved, 0);
+
+            const newLastOrderId = await this.dexert.lastOrderId();
+           
+            assert.equal(newLastOrderId, 1);
+           
+            const order = await this.dexert.getOrderById(1);
+           
+            assert.ok(order);
+            assert.ok(order.length);
+            assert.equal(order[0], 0);
+            assert.equal(order[1], 0);
+            assert.equal(order[2], 0);
+            assert.equal(order[3], 0);
+            assert.equal(order[4], 0);
+            
+            const orders = await this.dexert.getBuyOrdersByToken(this.token.address);
+            
+            assert.ok(orders);
+            assert.equal(orders.length, 4);
+            
+            assert.equal(orders[0].length, 0);
+            
+            const ordersByAccount = await this.dexert.getOrdersByAccount(aliceAccount);
+            
+            assert.ok(ordersByAccount);
+            assert.equal(ordersByAccount.length, 5);
+            
+            assert.equal(ordersByAccount[0].length, 0);
+        });
+
        it('cannot put a buy order without enough balance', async function () {
             await this.dexert.deposit({ from: aliceAccount, value: 50 });
            
