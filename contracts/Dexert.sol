@@ -25,7 +25,7 @@ contract Dexert {
     mapping (address => mapping (address => Balance)) private tokenBalances;
 
     mapping (uint => Order) private ordersById;
-    mapping (address => Order[]) private ordersByAccount;
+    mapping (address => uint[]) private ordersByAccount;
 
     mapping (address => uint[]) private buyOrdersByToken;
     mapping (address => uint[]) private sellOrdersByToken;
@@ -83,6 +83,9 @@ contract Dexert {
         
         balances[order.account].reserved = balances[order.account].reserved.sub(total);
         balances[order.account].available = balances[order.account].available.add(total);
+
+        uint[] storage ids = ordersByAccount[order.account];
+        ids.length--;
         
         delete(ordersById[id]);
     }
@@ -130,16 +133,16 @@ contract Dexert {
     }
     
     function getOrdersByAccount(address account) public constant returns(address[] tokens, uint[] amounts, uint[] prices, bool[] buyings) {
-        Order[] storage orders = ordersByAccount[account];
-        uint norders = orders.length;
+        uint[] storage ids = ordersByAccount[account];
+        uint norders = ids.length;
         
         tokens = new address[](norders);
         amounts = new uint[](norders);
         prices = new uint[](norders);
         buyings = new bool[](norders);
         
-        for (uint16 k = 0; k < orders.length; k++) {
-            Order storage order = orders[k];
+        for (uint16 k = 0; k < norders; k++) {
+            Order storage order = ordersById[ids[k]];
             
             tokens[k] = order.token;
             amounts[k] = order.amount;
