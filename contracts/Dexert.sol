@@ -87,6 +87,9 @@ contract Dexert {
         uint[] storage ids = ordersByAccount[order.account];
         ids.length--;
         
+        uint[] storage ids2 = buyOrdersByToken[order.token];
+        ids2.length--;
+
         delete(ordersById[id]);
     }
     
@@ -122,7 +125,8 @@ contract Dexert {
         ordersById[orderId] = order;
         
         buyOrdersByToken[token].push(orderId);
-
+        ordersByAccount[msg.sender].push(orderId);
+        
         return true;
     }
     

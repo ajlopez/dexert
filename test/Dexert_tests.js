@@ -329,7 +329,7 @@ contract('Dexert', function (accounts) {
             const ordersByAccount = await this.dexert.getOrdersByAccount(aliceAccount);
             
             assert.ok(ordersByAccount);
-            assert.equal(ordersByAccount.length, 5);
+            assert.equal(ordersByAccount.length, 4);
             
             assert.equal(ordersByAccount[0].length, 0);
         });
