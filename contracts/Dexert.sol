@@ -106,6 +106,7 @@ contract Dexert {
         ordersById[orderId] = order;
         
         sellOrdersByToken[token].push(orderId);
+        ordersByAccount[msg.sender].push(orderId);
         
         return true;
     }
