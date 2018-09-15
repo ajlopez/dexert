@@ -79,6 +79,8 @@ contract Dexert {
     function cancelOrder(uint id) public {
         Order storage order = ordersById[id];
         
+        require(order.account == msg.sender);
+        
         uint[] storage ids = ordersByAccount[order.account];
         ids.length--;
         

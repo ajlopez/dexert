@@ -2,6 +2,16 @@
 const Dexert = artifacts.require('./Dexert.sol');
 const Token = artifacts.require('./Token.sol');
 
+async function expectThrow (promise) {
+  try {
+    await promise;
+  } catch (error) {
+      return;
+  }
+  
+  assert.fail('Expected throw not received');
+}
+
 contract('Dexert', function (accounts) {
     const ownerAccount = accounts[0];
     const aliceAccount = accounts[1];
@@ -92,12 +102,7 @@ contract('Dexert', function (accounts) {
         it('cannot withdraw without enough balance', async function() {
             await this.dexert.deposit({ from: aliceAccount, value: 100 });
 
-            try {
-                await this.dexert.withdraw(150, { from: aliceAccount, gasPrice: 0 });
-                assert.fail();
-            }
-            catch (ex) {
-            };
+            expectThrow(this.dexert.withdraw(150, { from: aliceAccount, gasPrice: 0 }));
             
             const aliceBalance = await this.dexert.getBalance(aliceAccount);
             assert.equal(aliceBalance, 100);
@@ -133,12 +138,7 @@ contract('Dexert', function (accounts) {
         });
 
         it('cannot deposit tokens without enough balance', async function() {
-            try {
-                await this.dexert.depositTokens(this.token.address, 100, { from: aliceAccount });
-                assert.fail();
-            }
-            catch (ex) {
-            }
+            expectThrow(this.dexert.depositTokens(this.token.address, 100, { from: aliceAccount }));
             
             const tokenBalance = await this.token.balanceOf(aliceAccount);
             assert.equal(tokenBalance, 0);
@@ -182,12 +182,7 @@ contract('Dexert', function (accounts) {
         });
 
         it('cannot withdraw tokens without enough balance', async function() {
-            try {
-                await this.dexert.withdrawTokens(this.token.address, 100, { from: aliceAccount });
-                assert.fail();
-            }
-            catch (ex) {
-            }
+            expectThrow(this.dexert.withdrawTokens(this.token.address, 100, { from: aliceAccount }));
             
             const tokenBalance = await this.token.balanceOf(aliceAccount);
             assert.equal(tokenBalance, 0);
@@ -395,15 +390,20 @@ contract('Dexert', function (accounts) {
             assert.equal(ordersByAccount[0].length, 0);
         });
 
-       it('cannot put a buy order without enough balance', async function () {
+        it('only account order could cancel an order', async function () {
+            await this.token.transfer(bobAccount, 500);
+            await this.dexert.depositTokens(this.token.address, 200, { from: bobAccount });
+            await this.dexert.sellTokens(this.token.address, 50, 2, { from: bobAccount });
+
+            const lastOrderId = await this.dexert.lastOrderId();
+
+            expectThrow(this.dexert.cancelOrder(lastOrderId, { from: aliceAccount }));
+        });
+
+        it('cannot put a buy order without enough balance', async function () {
             await this.dexert.deposit({ from: aliceAccount, value: 50 });
            
-            try {
-                await this.dexert.buyTokens(this.token.address, 50, 2, { from: aliceAccount });
-                assert.fail();
-            }
-            catch (ex) {
-            }
+            expectThrow(this.dexert.buyTokens(this.token.address, 50, 2, { from: aliceAccount }));
 
             const aliceBalance = await this.dexert.getBalance(aliceAccount);           
             assert.equal(aliceBalance, 50);
@@ -480,12 +480,7 @@ contract('Dexert', function (accounts) {
             await this.token.transfer(bobAccount, 500);
             await this.dexert.depositTokens(this.token.address, 20, { from: bobAccount });
             
-            try {
-                await this.dexert.sellTokens(this.token.address, 50, 2, { from: bobAccount });
-                assert.fail();
-            }
-            catch (ex) {
-            }
+            expectThrow(this.dexert.sellTokens(this.token.address, 50, 2, { from: bobAccount }));
            
             const bobTokenBalance = await this.dexert.getTokenBalance(this.token.address, bobAccount);           
             assert.equal(bobTokenBalance, 20);
