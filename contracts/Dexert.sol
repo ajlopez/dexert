@@ -79,16 +79,25 @@ contract Dexert {
     function cancelOrder(uint id) public {
         Order storage order = ordersById[id];
         
-        uint total = order.price.mul(order.amount);
-        
-        balances[order.account].reserved = balances[order.account].reserved.sub(total);
-        balances[order.account].available = balances[order.account].available.add(total);
-
         uint[] storage ids = ordersByAccount[order.account];
         ids.length--;
         
-        uint[] storage ids2 = buyOrdersByToken[order.token];
-        ids2.length--;
+        if (order.buying) {
+            uint total = order.price.mul(order.amount);
+            
+            balances[order.account].reserved = balances[order.account].reserved.sub(total);
+            balances[order.account].available = balances[order.account].available.add(total);
+
+            ids = buyOrdersByToken[order.token];
+            ids.length--;
+        }
+        else {
+            tokenBalances[order.token][order.account].reserved = tokenBalances[order.token][order.account].reserved.sub(order.amount);
+            tokenBalances[order.token][order.account].available = tokenBalances[order.token][order.account].available.add(order.amount);
+
+            ids = sellOrdersByToken[order.token];
+            ids.length--;
+        }
 
         delete(ordersById[id]);
     }

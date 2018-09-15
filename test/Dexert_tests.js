@@ -351,6 +351,50 @@ contract('Dexert', function (accounts) {
             assert.equal(ordersByAccount[0].length, 0);
         });
 
+        it('sell and cancel order', async function () {
+            await this.token.transfer(bobAccount, 500);
+            await this.dexert.depositTokens(this.token.address, 200, { from: bobAccount });
+            await this.dexert.sellTokens(this.token.address, 50, 2, { from: bobAccount });
+
+            const lastOrderId = await this.dexert.lastOrderId();
+
+            await this.dexert.cancelOrder(lastOrderId, { from: bobAccount });
+            
+            const bobTokenBalance = await this.dexert.getTokenBalance(this.token.address, bobAccount);           
+            assert.equal(bobTokenBalance, 200);
+
+            const bobReservedTokens = await this.dexert.getReservedTokens(this.token.address, bobAccount);           
+            assert.equal(bobReservedTokens, 0);
+
+            const newLastOrderId = await this.dexert.lastOrderId();
+           
+            assert.equal(newLastOrderId, 1);
+           
+            const order = await this.dexert.getOrderById(1);
+           
+            assert.ok(order);
+            assert.ok(order.length);
+            assert.equal(order[0], 0);
+            assert.equal(order[1], 0);
+            assert.equal(order[2], 0);
+            assert.equal(order[3], 0);
+            assert.equal(order[4], 0);
+            
+            const orders = await this.dexert.getSellOrdersByToken(this.token.address);
+            
+            assert.ok(orders);
+            assert.equal(orders.length, 4);
+            
+            assert.equal(orders[0].length, 0);
+            
+            const ordersByAccount = await this.dexert.getOrdersByAccount(bobAccount);
+            
+            assert.ok(ordersByAccount);
+            assert.equal(ordersByAccount.length, 4);
+            
+            assert.equal(ordersByAccount[0].length, 0);
+        });
+
        it('cannot put a buy order without enough balance', async function () {
             await this.dexert.deposit({ from: aliceAccount, value: 50 });
            
