@@ -81,8 +81,7 @@ contract Dexert {
         
         require(order.account == msg.sender);
         
-        uint[] storage ids = ordersByAccount[order.account];
-        ids.length--;
+        removeId(ordersByAccount[order.account], id);
         
         if (order.buying) {
             uint total = order.price.mul(order.amount);
@@ -90,18 +89,31 @@ contract Dexert {
             balances[order.account].reserved = balances[order.account].reserved.sub(total);
             balances[order.account].available = balances[order.account].available.add(total);
 
-            ids = buyOrdersByToken[order.token];
-            ids.length--;
+            removeId(buyOrdersByToken[order.token], id);
         }
         else {
             tokenBalances[order.token][order.account].reserved = tokenBalances[order.token][order.account].reserved.sub(order.amount);
             tokenBalances[order.token][order.account].available = tokenBalances[order.token][order.account].available.add(order.amount);
 
-            ids = sellOrdersByToken[order.token];
-            ids.length--;
+            removeId(sellOrdersByToken[order.token], id);
         }
 
         delete(ordersById[id]);
+    }
+    
+    function removeId(uint[] storage ids, uint id) private {
+        uint nids = ids.length;
+        
+        for (uint k = 0; k < nids; k++)
+            if (ids[k] == id) {
+                if (k != nids - 1)
+                    ids[k] = ids[nids - 1];
+                    
+                ids[nids - 1] = 0;
+                ids.length--;
+                
+                break;
+            }
     }
     
     function sellTokens(address token, uint amount, uint price) public returns (bool) {
