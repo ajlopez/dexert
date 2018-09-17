@@ -540,6 +540,83 @@ contract('Dexert', function (accounts) {
             assert.equal(ordersByAccount[3][0], false);
         });
 
+        it('two sell orders and cancel first one', async function () {
+            await this.token.transfer(bobAccount, 500);
+            await this.dexert.depositTokens(this.token.address, 200, { from: bobAccount });
+            
+            await this.dexert.sellTokens(this.token.address, 50, 2, { from: bobAccount });
+            const firstOrderId = (await this.dexert.lastOrderId()).toNumber();
+            
+            await this.dexert.sellTokens(this.token.address, 25, 2, { from: bobAccount });
+            const secondOrderId = (await this.dexert.lastOrderId()).toNumber();
+           
+            await this.dexert.cancelOrder(firstOrderId, { from: bobAccount });
+           
+            const bobTokenBalance = await this.dexert.getTokenBalance(this.token.address, bobAccount);           
+            assert.equal(bobTokenBalance, 175);
+
+            const bobReservedTokens = await this.dexert.getReservedTokens(this.token.address, bobAccount);           
+            assert.equal(bobReservedTokens, 25);
+
+            const lastOrderId = await this.dexert.lastOrderId();
+           
+            assert.equal(lastOrderId, 2);
+           
+            const firstOrder = await this.dexert.getOrderById(firstOrderId);
+           
+            assert.ok(firstOrder);
+            assert.ok(firstOrder.length);
+            assert.equal(firstOrder[0], 0);
+            assert.equal(firstOrder[1], 0);
+            assert.equal(firstOrder[2], 0);
+            assert.equal(firstOrder[3], 0);
+            assert.equal(firstOrder[4], false);
+
+            const secondOrder = await this.dexert.getOrderById(secondOrderId);
+           
+            assert.ok(secondOrder);
+            assert.ok(secondOrder.length);
+            assert.equal(secondOrder[0], this.token.address);
+            assert.equal(secondOrder[1], bobAccount);
+            assert.equal(secondOrder[2], 25);
+            assert.equal(secondOrder[3], 2);
+            assert.equal(secondOrder[4], false);
+            
+            const ordersByToken = await this.dexert.getSellOrdersByToken(this.token.address);
+            
+            assert.ok(ordersByToken);
+            assert.equal(ordersByToken.length, 4);
+            
+            assert.equal(ordersByToken[0].length, 1);
+            assert.equal(ordersByToken[0][0], secondOrderId);
+            
+            assert.equal(ordersByToken[1].length, 1);
+            assert.equal(ordersByToken[1][0], bobAccount);
+            
+            assert.equal(ordersByToken[2].length, 1);
+            assert.equal(ordersByToken[2][0], 25);
+            
+            assert.equal(ordersByToken[3].length, 1);
+            assert.equal(ordersByToken[3][0], 2);
+            
+            const ordersByAccount = await this.dexert.getOrdersByAccount(bobAccount);
+            
+            assert.ok(ordersByAccount);
+            assert.equal(ordersByAccount.length, 4);
+            
+            assert.equal(ordersByAccount[0].length, 1);
+            assert.equal(ordersByAccount[0][0], this.token.address);
+            
+            assert.equal(ordersByAccount[1].length, 1);
+            assert.equal(ordersByAccount[1][0], 25);
+            
+            assert.equal(ordersByAccount[2].length, 1);
+            assert.equal(ordersByAccount[2][0], 2);
+            
+            assert.equal(ordersByAccount[3].length, 1);
+            assert.equal(ordersByAccount[3][0], false);
+        });
+
         it('cannot put a sell order without enough tokens', async function () {
             await this.token.transfer(bobAccount, 500);
             await this.dexert.depositTokens(this.token.address, 20, { from: bobAccount });
