@@ -142,19 +142,31 @@ contract Dexert {
         
         require(balances[msg.sender].available >= total);
         
-        Order memory order = Order(token, msg.sender, amount, price, true);
-        
         balances[msg.sender].available = balances[msg.sender].available.sub(total);
         balances[msg.sender].reserved = balances[msg.sender].reserved.add(total);
         
         uint orderId = ++lastOrderId;
         
-        ordersById[orderId] = order;
+        ordersById[orderId] = Order(token, msg.sender, amount, price, true);
         
         buyOrdersByToken[token].push(orderId);
         ordersByAccount[msg.sender].push(orderId);
+    
+        uint[] storage sellOrdersIds = sellOrdersByToken[token];
+        uint nSellOrders = sellOrdersIds.length;
+        
+        for (uint k = 0; k < nSellOrders; k++) {
+            uint sellOrderId = sellOrdersIds[k];
+            
+            if (!matchOrders(ordersById[orderId], ordersById[sellOrderId]))
+                continue;
+        }
         
         return true;
+    }
+    
+    function matchOrders(Order storage buyOrder, Order storage sellOrder) private returns (bool) {
+        return false;
     }
     
     function getOrderById(uint id) public constant returns(address account, address token, uint amount, uint price, bool buying) {
