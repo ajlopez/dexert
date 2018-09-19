@@ -562,7 +562,7 @@ contract('Dexert', function (accounts) {
             assert.equal(aliceReserved, 0);
 
             const bobTokenBalance = await this.dexert.getTokenBalance(this.token.address, bobAccount);           
-            assert.equal(bobTokenBalance, 200 - 25);
+            assert.equal(bobTokenBalance, 200 - 50);
 
             const bobReservedTokens = await this.dexert.getReservedTokens(this.token.address, bobAccount);           
             assert.equal(bobReservedTokens, 25);

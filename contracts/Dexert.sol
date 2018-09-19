@@ -166,6 +166,37 @@ contract Dexert {
     }
     
     function matchOrders(Order storage buyOrder, Order storage sellOrder) private returns (bool) {
+        require(buyOrder.buying == true);
+        require(sellOrder.buying == false);
+        require(buyOrder.token == sellOrder.token);
+
+        if (buyOrder.price < sellOrder.price)
+            return false;
+            
+        uint amount = buyOrder.amount;
+        
+        if (amount > sellOrder.amount)
+            amount = sellOrder.amount;
+            
+        if (amount == 0)
+            return false;
+            
+        buyOrder.amount = buyOrder.amount.sub(amount);
+        sellOrder.amount = sellOrder.amount.sub(amount);
+        
+        uint price = buyOrder.price.add(sellOrder.price).div(2);
+        
+        uint total = amount.mul(price);
+        uint buyerTotal = amount.mul(buyOrder.price);
+        
+        balances[buyOrder.account].reserved = balances[buyOrder.account].reserved.sub(buyerTotal);
+        balances[buyOrder.account].available = balances[buyOrder.account].available.add(buyerTotal).sub(total);
+
+        balances[sellOrder.account].available = balances[sellOrder.account].available.add(total);
+        
+        tokenBalances[buyOrder.token][buyOrder.account].available = tokenBalances[buyOrder.token][buyOrder.account].available.add(amount);
+        tokenBalances[sellOrder.token][sellOrder.account].reserved = tokenBalances[sellOrder.token][sellOrder.account].reserved.sub(amount);
+
         return false;
     }
     
