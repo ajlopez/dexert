@@ -160,6 +160,13 @@ contract Dexert {
             
             if (!matchOrders(ordersById[orderId], ordersById[sellOrderId]))
                 continue;
+                
+            if (ordersById[orderId].amount == 0) {
+                removeId(ordersByAccount[msg.sender], orderId);
+                removeId(buyOrdersByToken[token], orderId);
+                delete ordersById[orderId];
+                break;
+            }
         }
         
         return true;
@@ -197,7 +204,7 @@ contract Dexert {
         tokenBalances[buyOrder.token][buyOrder.account].available = tokenBalances[buyOrder.token][buyOrder.account].available.add(amount);
         tokenBalances[sellOrder.token][sellOrder.account].reserved = tokenBalances[sellOrder.token][sellOrder.account].reserved.sub(amount);
 
-        return false;
+        return true;
     }
     
     function getOrderById(uint id) public constant returns(address account, address token, uint amount, uint price, bool buying) {

@@ -540,7 +540,7 @@ contract('Dexert', function (accounts) {
             assert.equal(ordersByAccount[3][0], false);
         });
 
-        it('sell and buy order', async function () {
+        it('sell and buy order, completing buy order', async function () {
             await this.token.transfer(bobAccount, 500);
             await this.dexert.depositTokens(this.token.address, 200, { from: bobAccount });
             await this.dexert.sellTokens(this.token.address, 50, 2, { from: bobAccount });
