@@ -641,7 +641,7 @@ contract('Dexert', function (accounts) {
             assert.equal(bobBalance, 50 * 2);
 
             const aliceBalance = await this.dexert.getBalance(aliceAccount);           
-            assert.equal(aliceBalance, 200 - 50 * 2);
+            assert.equal(aliceBalance.toNumber(), 200 - 100 * 2);
 
             const aliceReserved = await this.dexert.getReserved(aliceAccount);           
             assert.equal(aliceReserved, 50 * 2);
@@ -675,39 +675,59 @@ contract('Dexert', function (accounts) {
             assert.equal(buyOrder[3], 2);
             assert.equal(buyOrder[4], true);
             
-            const ordersByToken = await this.dexert.getSellOrdersByToken(this.token.address);
+            const sellOrdersByToken = await this.dexert.getSellOrdersByToken(this.token.address);
             
-            assert.ok(ordersByToken);
-            assert.equal(ordersByToken.length, 4);
+            assert.ok(sellOrdersByToken);
+            assert.equal(sellOrdersByToken.length, 4);
             
-            assert.equal(ordersByToken[0].length, 1);
-            assert.equal(ordersByToken[0][0], 1);
+            assert.equal(sellOrdersByToken[0].length, 0);
+            assert.equal(sellOrdersByToken[1].length, 0);
+            assert.equal(sellOrdersByToken[2].length, 0);
+            assert.equal(sellOrdersByToken[3].length, 0);
             
-            assert.equal(ordersByToken[1].length, 1);
-            assert.equal(ordersByToken[1][0], bobAccount);
+            const buyOrdersByToken = await this.dexert.getBuyOrdersByToken(this.token.address);
             
-            assert.equal(ordersByToken[2].length, 1);
-            assert.equal(ordersByToken[2][0], 25);
+            assert.ok(buyOrdersByToken);
+            assert.equal(buyOrdersByToken.length, 4);
             
-            assert.equal(ordersByToken[3].length, 1);
-            assert.equal(ordersByToken[3][0], 2);
+            assert.equal(buyOrdersByToken[0].length, 1);
+            assert.equal(buyOrdersByToken[0][0], buyOrderId);
             
-            const ordersByAccount = await this.dexert.getOrdersByAccount(aliceAccount);
+            assert.equal(buyOrdersByToken[1].length, 1);
+            assert.equal(buyOrdersByToken[1][0], aliceAccount);
             
-            assert.ok(ordersByAccount);
-            assert.equal(ordersByAccount.length, 4);
+            assert.equal(buyOrdersByToken[2].length, 1);
+            assert.equal(buyOrdersByToken[2][0], 50);
             
-            assert.equal(ordersByAccount[0].length, 1);
-            assert.equal(ordersByAccount[0][0], this.token.address);
+            assert.equal(buyOrdersByToken[3].length, 1);
+            assert.equal(buyOrdersByToken[3][0], 2);
+
+            const buyerOrdersByAccount = await this.dexert.getOrdersByAccount(aliceAccount);
             
-            assert.equal(ordersByAccount[1].length, 1);
-            assert.equal(ordersByAccount[1][0], 50);
+            assert.ok(buyerOrdersByAccount);
+            assert.equal(buyerOrdersByAccount.length, 4);
             
-            assert.equal(ordersByAccount[2].length, 1);
-            assert.equal(ordersByAccount[2][0], 2);
+            assert.equal(buyerOrdersByAccount[0].length, 1);
+            assert.equal(buyerOrdersByAccount[0][0], this.token.address);
             
-            assert.equal(ordersByAccount[3].length, 1);
-            assert.equal(ordersByAccount[3][0], true);
+            assert.equal(buyerOrdersByAccount[1].length, 1);
+            assert.equal(buyerOrdersByAccount[1][0], 50);
+            
+            assert.equal(buyerOrdersByAccount[2].length, 1);
+            assert.equal(buyerOrdersByAccount[2][0], 2);
+            
+            assert.equal(buyerOrdersByAccount[3].length, 1);
+            assert.equal(buyerOrdersByAccount[3][0], true);
+
+            const sellerOrdersByAccount = await this.dexert.getOrdersByAccount(bobAccount);
+            
+            assert.ok(sellerOrdersByAccount);
+            assert.equal(sellerOrdersByAccount.length, 4);
+            
+            assert.equal(sellerOrdersByAccount[0].length, 0);
+            assert.equal(sellerOrdersByAccount[1].length, 0);
+            assert.equal(sellerOrdersByAccount[2].length, 0);
+            assert.equal(sellerOrdersByAccount[3].length, 0);
         });
 
         it('two sell orders and cancel first one', async function () {
