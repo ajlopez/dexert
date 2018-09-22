@@ -23,6 +23,21 @@ contract('Dexert', function (accounts) {
         this.dexert = await Dexert.new();
         this.token = await Token.new();
     });
+    
+    async function orderExists(dexert, id, account, token, amount, price, buying) {
+        const order = await dexert.getOrderById(id);
+        
+        if (!order)
+            return false;
+        
+        assert.equal(order.length, 5);
+
+        return order[0].equal(account)
+            && order[1].equal(token)
+            && order[2].equal(amount)
+            && order[3].equal(price)
+            && order[4] == buying;
+    }
 
     describe('transfer value', function() {
         it('initial balances are zero', async function() {
@@ -257,7 +272,9 @@ contract('Dexert', function (accounts) {
             const lastOrderId = await this.dexert.lastOrderId();
            
             assert.equal(lastOrderId, 1);
-           
+
+            assert.ok(await orderExists(this.dexert, lastOrderId, aliceAccount, this.token.address, 50, 2, true));
+
             const order = await this.dexert.getOrderById(1);
            
             assert.ok(order);
