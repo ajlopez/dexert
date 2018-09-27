@@ -31,11 +31,11 @@ contract('Dexert', function (accounts) {
             return false;
         
         assert.equal(order.length, 5);
-
-        return order[0].equal(account)
-            && order[1].equal(token)
-            && order[2].equal(amount)
-            && order[3].equal(price)
+        
+        return order[0] == token
+            && order[1] == account
+            && order[2].equals|(amount)
+            && order[3].equals(price)
             && order[4] == buying;
     }
 
@@ -274,16 +274,6 @@ contract('Dexert', function (accounts) {
             assert.equal(lastOrderId, 1);
 
             assert.ok(await orderExists(this.dexert, lastOrderId, aliceAccount, this.token.address, 50, 2, true));
-
-            const order = await this.dexert.getOrderById(1);
-           
-            assert.ok(order);
-            assert.ok(order.length);
-            assert.equal(order[0], this.token.address);
-            assert.equal(order[1], aliceAccount);
-            assert.equal(order[2], 50);
-            assert.equal(order[3], 2);
-            assert.ok(order[4]);
             
             const ordersByToken = await this.dexert.getBuyOrdersByToken(this.token.address);
             
@@ -337,16 +327,8 @@ contract('Dexert', function (accounts) {
             const newLastOrderId = await this.dexert.lastOrderId();
            
             assert.equal(newLastOrderId, 1);
-           
-            const order = await this.dexert.getOrderById(1);
-           
-            assert.ok(order);
-            assert.ok(order.length);
-            assert.equal(order[0], 0);
-            assert.equal(order[1], 0);
-            assert.equal(order[2], 0);
-            assert.equal(order[3], 0);
-            assert.equal(order[4], 0);
+
+            assert.equal(await orderExists(this.dexert, 1, 0, 0, 0, 0, 0, false), false);
             
             const orders = await this.dexert.getBuyOrdersByToken(this.token.address);
             
