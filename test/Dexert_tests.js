@@ -32,11 +32,30 @@ contract('Dexert', function (accounts) {
         
         assert.equal(order.length, 5);
         
-        return order[0] == token
+        const exists = order[0] == token
             && order[1] == account
             && order[2].equals|(amount)
             && order[3].equals(price)
             && order[4] == buying;
+            
+        return exists;
+    }
+
+    async function orderDoesNotExist(dexert, id, account, token, amount, price, buying) {
+        const order = await dexert.getOrderById(id);
+        
+        if (!order)
+            return false;
+        
+        assert.equal(order.length, 5);
+        
+        const exists = order[0] == token
+            && order[1] == account
+            && order[2].equals|(amount)
+            && order[3].equals(price)
+            && order[4] == buying;
+            
+        return !exists;
     }
 
     describe('transfer value', function() {
@@ -328,7 +347,7 @@ contract('Dexert', function (accounts) {
            
             assert.equal(newLastOrderId, 1);
 
-            assert.equal(await orderExists(this.dexert, 1, 0, 0, 0, 0, 0, false), false);
+            assert.ok(await orderDoesNotExist(this.dexert, 1, 0, 0, 0, 0, 0, false));
             
             const orders = await this.dexert.getBuyOrdersByToken(this.token.address);
             
