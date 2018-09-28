@@ -34,14 +34,14 @@ contract('Dexert', function (accounts) {
         
         const exists = order[0] == token
             && order[1] == account
-            && order[2].equals|(amount)
+            && order[2].equals(amount)
             && order[3].equals(price)
             && order[4] == buying;
             
         return exists;
     }
 
-    async function orderDoesNotExist(dexert, id, account, token, amount, price, buying) {
+    async function orderDoesNotExist(dexert, id) {
         const order = await dexert.getOrderById(id);
         
         if (!order)
@@ -49,13 +49,13 @@ contract('Dexert', function (accounts) {
         
         assert.equal(order.length, 5);
         
-        const exists = order[0] == token
-            && order[1] == account
-            && order[2].equals|(amount)
-            && order[3].equals(price)
-            && order[4] == buying;
+        const empty = order[0] == 0
+            && order[1] == 0
+            && order[2].equals(0)
+            && order[3].equals(0)
+            && order[4] == false;
             
-        return !exists;
+        return empty;
     }
 
     describe('transfer value', function() {
@@ -347,7 +347,7 @@ contract('Dexert', function (accounts) {
            
             assert.equal(newLastOrderId, 1);
 
-            assert.ok(await orderDoesNotExist(this.dexert, 1, 0, 0, 0, 0, 0, false));
+            assert.ok(await orderDoesNotExist(this.dexert, 1));
             
             const orders = await this.dexert.getBuyOrdersByToken(this.token.address);
             
@@ -383,25 +383,8 @@ contract('Dexert', function (accounts) {
            
             assert.equal(newLastOrderId, 2);
            
-            const firstOrder = await this.dexert.getOrderById(firstOrderId);
-           
-            assert.ok(firstOrder);
-            assert.ok(firstOrder.length);
-            assert.equal(firstOrder[0], 0);
-            assert.equal(firstOrder[1], 0);
-            assert.equal(firstOrder[2], 0);
-            assert.equal(firstOrder[3], 0);
-            assert.equal(firstOrder[4], 0);
-           
-            const secondOrder = await this.dexert.getOrderById(secondOrderId);
-           
-            assert.ok(secondOrder);
-            assert.ok(secondOrder.length);
-            assert.equal(secondOrder[0], this.token.address);
-            assert.equal(secondOrder[1], aliceAccount);
-            assert.equal(secondOrder[2], 25);
-            assert.equal(secondOrder[3], 3);
-            assert.equal(secondOrder[4], true);
+            assert.ok(orderDoesNotExist(this.dexert, firstOrderId));           
+            assert.ok(orderExists(this.dexert, secondOrderId, this.token.address, aliceAccount, 25, 3, true));
             
             const ordersByToken = await this.dexert.getBuyOrdersByToken(this.token.address);
             
