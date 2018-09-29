@@ -47,13 +47,28 @@ contract('Dexert', function (accounts) {
         
         if (!ordersByAccount.length)
             return false;
+
+        var existsByAccount = false;
         
-        for (var k = 0; k < ordersByAccount.length; k++) {
-            if (ordersByAccount[k][0] != id)
+        for (var k = 0; k < ordersByAccount[0].length; k++) {
+            if (ordersByAccount[0][k] != id)
                 continue;
+            
+            if (ordersByAccount[1][k] == token
+                && ordersByAccount[2][k].equals(amount)
+                && ordersByAccount[3][k].equals(price)
+                && ordersByAccount[4][k] == buying) {
+             
+                existsByAccount = true;
+                
+                break;
+             }
         }
         
-        return exists;
+        if (!existsByAccount)
+            return false;
+        
+        return true;
     }
 
     async function orderDoesNotExist(dexert, id) {
