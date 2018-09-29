@@ -219,25 +219,29 @@ contract Dexert {
         return (order.token, order.account, order.amount, order.price, order.buying);
     }
     
-    function getOrdersByAccount(address account) public constant returns(address[] tokens, uint[] amounts, uint[] prices, bool[] buyings) {
+    function getOrdersByAccount(address account) public constant returns(uint[] oids, address[] tokens, uint[] amounts, uint[] prices, bool[] buyings) {
         uint[] storage ids = ordersByAccount[account];
         uint norders = ids.length;
         
+        oids = new uint[](norders);
         tokens = new address[](norders);
         amounts = new uint[](norders);
         prices = new uint[](norders);
         buyings = new bool[](norders);
         
         for (uint16 k = 0; k < norders; k++) {
-            Order storage order = ordersById[ids[k]];
+            uint oid = ids[k];
             
+            Order storage order = ordersById[oid];
+            
+            oids[k] = oid;
             tokens[k] = order.token;
             amounts[k] = order.amount;
             prices[k] = order.price;
             buyings[k] = order.buying;
         }
-        
-        return (tokens, amounts, prices, buyings);
+                    
+        return (oids, tokens, amounts, prices, buyings);
     }
     
     function getBuyOrdersByToken(address token) public constant returns(uint[] ids, address[] accounts, uint[] amounts, uint[] prices) {
