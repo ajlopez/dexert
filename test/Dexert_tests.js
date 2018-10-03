@@ -67,7 +67,38 @@ contract('Dexert', function (accounts) {
         
         if (!existsByAccount)
             return false;
+
+        var ordersByToken;
         
+        if (buying)
+            ordersByToken = await dexert.getBuyOrdersByToken(token);
+        else
+            ordersByToken = await dexert.getSellOrdersByToken(token);
+        
+        assert.ok(ordersByToken);
+        
+        if (!ordersByToken.length)
+            return false;
+
+        var existsByToken = false;
+        
+        for (var k = 0; k < ordersByToken[0].length; k++) {
+            if (ordersByToken[0][k] != id)
+                continue;
+            
+            if (ordersByToken[1][k] == account
+                && ordersByToken[2][k].equals(amount)
+                && ordersByToken[3][k].equals(price)) {
+             
+                existsByToken = true;
+                
+                break;
+             }
+        }
+        
+        if (!existsByToken)
+            return false;
+
         return true;
     }
 
