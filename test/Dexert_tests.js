@@ -524,63 +524,9 @@ contract('Dexert', function (accounts) {
            
             const aliceTokenBalance = await this.dexert.getTokenBalance(this.token.address, aliceAccount);           
             assert.equal(aliceTokenBalance, 25);
-
-            const sellOrder = await this.dexert.getOrderById(sellOrderId);
-           
-            assert.ok(sellOrder);
-            assert.ok(sellOrder.length);
-            assert.equal(sellOrder[0], this.token.address);
-            assert.equal(sellOrder[1], bobAccount);
-            assert.equal(sellOrder[2], 25);
-            assert.equal(sellOrder[3], 2);
-            assert.equal(sellOrder[4], false);
-
-            const buyOrder = await this.dexert.getOrderById(buyOrderId);
-           
-            assert.ok(buyOrder);
-            assert.ok(buyOrder.length);
-            assert.equal(buyOrder[0], 0);
-            assert.equal(buyOrder[1], 0);
-            assert.equal(buyOrder[2], 0);
-            assert.equal(buyOrder[3], 0);
-            assert.equal(buyOrder[4], false);
             
-            const ordersByToken = await this.dexert.getSellOrdersByToken(this.token.address);
-            
-            assert.ok(ordersByToken);
-            assert.equal(ordersByToken.length, 4);
-            
-            assert.equal(ordersByToken[0].length, 1);
-            assert.equal(ordersByToken[0][0], 1);
-            
-            assert.equal(ordersByToken[1].length, 1);
-            assert.equal(ordersByToken[1][0], bobAccount);
-            
-            assert.equal(ordersByToken[2].length, 1);
-            assert.equal(ordersByToken[2][0], 25);
-            
-            assert.equal(ordersByToken[3].length, 1);
-            assert.equal(ordersByToken[3][0], 2);
-            
-            const ordersByAccount = await this.dexert.getOrdersByAccount(bobAccount);
-            
-            assert.ok(ordersByAccount);
-            assert.equal(ordersByAccount.length, 5);
-            
-            assert.equal(ordersByAccount[0].length, 1);
-            assert.equal(ordersByAccount[0][0], sellOrderId);
-            
-            assert.equal(ordersByAccount[1].length, 1);
-            assert.equal(ordersByAccount[1][0], this.token.address);
-            
-            assert.equal(ordersByAccount[2].length, 1);
-            assert.equal(ordersByAccount[2][0], 25);
-            
-            assert.equal(ordersByAccount[3].length, 1);
-            assert.equal(ordersByAccount[3][0], 2);
-            
-            assert.equal(ordersByAccount[4].length, 1);
-            assert.equal(ordersByAccount[4][0], false);
+            assert.ok(await orderExists(this.dexert, sellOrderId, bobAccount, this.token.address, 25, 2, false));
+            assert.ok(await orderDoesNotExist(this.dexert, buyOrderId));
         });
 
         it('sell and buy order, completing sell order', async function () {
