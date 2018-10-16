@@ -24,9 +24,7 @@ contract('Dexert', function (accounts) {
         this.token = await Token.new();
     });
     
-    async function ordersByAccount(dexert, account, ids) {
-        const orders = await dexert.getOrdersByAccount(account);
-        
+    function ordersById(orders, ids) {
         assert.ok(orders);
         assert.ok(Array.isArray(orders));
         assert.ok(orders.length);
@@ -48,6 +46,24 @@ contract('Dexert', function (accounts) {
         return true;
     }
     
+    async function ordersByAccount(dexert, account, ids) {
+        const orders = await dexert.getOrdersByAccount(account);
+
+        return ordersById(orders, ids);
+    }
+    
+    async function sellOrdersByToken(dexert, token, ids) {
+        const orders = await dexert.getSellOrdersByToken(token);
+
+        return ordersById(orders, ids);
+    }
+
+    async function buyOrdersByToken(dexert, token, ids) {
+        const orders = await dexert.getSellOrdersByToken(token);
+
+        return ordersById(orders, ids);
+    }
+
     async function orderExists(dexert, id, account, token, amount, price, buying) {
         const order = await dexert.getOrderById(id);
         
@@ -315,6 +331,14 @@ contract('Dexert', function (accounts) {
         it('no orders by account', async function() {
             assert.ok(await ordersByAccount(this.dexert, aliceAccount, []));
             assert.ok(await ordersByAccount(this.dexert, bobAccount, []));
+        });
+
+        it('no sell orders by token', async function() {
+            assert.ok(await sellOrdersByToken(this.dexert, this.token.address, []));
+        });
+
+        it('no buy orders by token', async function() {
+            assert.ok(await buyOrdersByToken(this.dexert, this.token.address, []));
         });
 
         it('orders by account', async function() {
