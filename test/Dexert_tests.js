@@ -824,6 +824,12 @@ contract('Dexert', function (accounts) {
 
             assert.ok(await orderExists(this.dexert, secondOrderId, bobAccount, this.token.address, 25, 2, false));
             assert.ok(await orderDoesNotExist(this.dexert, firstOrderId));
+
+            assert.ok(await ordersByAccount(this.dexert, aliceAccount, []));
+            assert.ok(await ordersByAccount(this.dexert, bobAccount, [ secondOrderId ]));
+            
+            assert.ok(await buyOrdersByToken(this.dexert, this.token.address, []));
+            assert.ok(await sellOrdersByToken(this.dexert, this.token.address, [ secondOrderId ]));
         });
 
         it('cannot put a sell order without enough tokens', async function () {
