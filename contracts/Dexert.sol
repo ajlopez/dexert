@@ -161,17 +161,18 @@ contract Dexert {
             if (!matchOrders(ordersById[orderId], ordersById[sellOrderId]))
                 continue;
                 
+            if (ordersById[sellOrderId].amount == 0) {
+                removeId(ordersByAccount[ordersById[sellOrderId].account], sellOrderId);
+                removeId(sellOrdersByToken[token], sellOrderId);
+                delete ordersById[sellOrderId];
+                nSellOrders--;
+            }
+
             if (ordersById[orderId].amount == 0) {
                 removeId(ordersByAccount[msg.sender], orderId);
                 removeId(buyOrdersByToken[token], orderId);
                 delete ordersById[orderId];
                 break;
-            }
-            else if (ordersById[sellOrderId].amount == 0) {
-                removeId(ordersByAccount[ordersById[sellOrderId].account], sellOrderId);
-                removeId(sellOrdersByToken[token], sellOrderId);
-                delete ordersById[sellOrderId];
-                nSellOrders--;
             }
         }
         
