@@ -638,6 +638,46 @@ contract('Dexert', function (accounts) {
             assert.ok(await sellOrdersByToken(this.dexert, this.token.address, []));
         });
 
+        it('sell and buy order, completing both orders', async function () {
+            await this.token.transfer(bobAccount, 500);
+            await this.dexert.depositTokens(this.token.address, 200, { from: bobAccount });
+            await this.dexert.sellTokens(this.token.address, 50, 2, { from: bobAccount });
+
+            const sellOrderId = (await this.dexert.lastOrderId()).toNumber();
+            
+            await this.dexert.deposit({ from: aliceAccount, value: 200 });
+            await this.dexert.buyTokens(this.token.address, 50, 2, { from: aliceAccount });
+
+            const buyOrderId = (await this.dexert.lastOrderId()).toNumber();
+
+            const bobBalance = await this.dexert.getBalance(bobAccount);           
+            assert.equal(bobBalance, 50 * 2);
+
+            const aliceBalance = await this.dexert.getBalance(aliceAccount);           
+            assert.equal(aliceBalance.toNumber(), 200 - 50 * 2);
+
+            const aliceReserved = await this.dexert.getReserved(aliceAccount);           
+            assert.equal(aliceReserved, 0);
+
+            const bobTokenBalance = await this.dexert.getTokenBalance(this.token.address, bobAccount);           
+            assert.equal(bobTokenBalance, 200 - 50);
+
+            const bobReservedTokens = await this.dexert.getReservedTokens(this.token.address, bobAccount);           
+            assert.equal(bobReservedTokens, 0);
+           
+            const aliceTokenBalance = await this.dexert.getTokenBalance(this.token.address, aliceAccount);           
+            assert.equal(aliceTokenBalance, 50);
+
+            assert.ok(await orderDoesNotExist(this.dexert, buyOrderId));
+            assert.ok(await orderDoesNotExist(this.dexert, sellOrderId));
+
+            assert.ok(await ordersByAccount(this.dexert, aliceAccount, []));
+            assert.ok(await ordersByAccount(this.dexert, bobAccount, []));
+            
+            assert.ok(await buyOrdersByToken(this.dexert, this.token.address, []));
+            assert.ok(await sellOrdersByToken(this.dexert, this.token.address, []));
+        });
+
         it('two sell orders and cancel first one', async function () {
             await this.token.transfer(bobAccount, 500);
             await this.dexert.depositTokens(this.token.address, 200, { from: bobAccount });
