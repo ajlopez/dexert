@@ -133,6 +133,30 @@ contract Dexert {
         
         sellOrdersByToken[token].push(orderId);
         ordersByAccount[msg.sender].push(orderId);
+    
+        uint[] storage buyOrdersIds = buyOrdersByToken[token];
+        uint nBuyOrders = buyOrdersIds.length;
+        
+        for (uint k = 0; k < nBuyOrders; k++) {
+            uint buyOrderId = buyOrdersIds[k];
+            
+            if (!matchOrders(ordersById[buyOrderId], ordersById[orderId]))
+                continue;
+                
+            if (ordersById[buyOrderId].amount == 0) {
+                removeId(ordersByAccount[ordersById[buyOrderId].account], buyOrderId);
+                removeId(buyOrdersByToken[token], buyOrderId);
+                delete ordersById[buyOrderId];
+                nBuyOrders--;
+            }
+
+            if (ordersById[orderId].amount == 0) {
+                removeId(ordersByAccount[msg.sender], orderId);
+                removeId(sellOrdersByToken[token], orderId);
+                delete ordersById[orderId];
+                break;
+            }
+        }
         
         return true;
     }
