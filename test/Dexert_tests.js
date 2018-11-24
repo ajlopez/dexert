@@ -2,15 +2,7 @@
 const Dexert = artifacts.require('./Dexert.sol');
 const Token = artifacts.require('./Token.sol');
 
-async function expectThrow (promise) {
-  try {
-    await promise;
-  } catch (error) {
-      return;
-  }
-  
-  assert.fail('Expected throw not received');
-}
+const expectThrow = require('./utils').expectThrow;
 
 contract('Dexert', function (accounts) {
     const ownerAccount = accounts[0];
