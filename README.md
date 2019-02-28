@@ -12,3 +12,5 @@ Decentralized Exchange for Ethereum/RSK Tokens, WIP
 - [List of All Decentralized Exchanges for Ethereum ERC20](https://www.reddit.com/r/CryptoCurrency/comments/82vp2b/list_of_all_decentralized_exchanges_for_ethereum/)
 - [Binance Releases Demo of Planned Decentralized Crypto Exchange](https://www.coindesk.com/binance-releases-new-video-demo-of-its-decentralized-crypto-exchange)
 - [CryptoBridge](https://crypto-bridge.org/)
+- [0x](https://0x.org/)
+- [Awesome Decentralized Finance](https://github.com/ong/awesome-decentralized-finance)
