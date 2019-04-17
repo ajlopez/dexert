@@ -16,4 +16,4 @@ Decentralized Exchange for Ethereum/RSK Tokens, WIP
 - [Awesome Decentralized Finance](https://github.com/ong/awesome-decentralized-finance)
 - [Uniswap and Value Capture in Decentralised Exchange Protocols](https://medium.com/@mika_49129/uniswap-and-value-capture-in-decentralised-exchange-protocols-b8df056eb95e)
 - [The World of Decentralised Exchanges on the Ethereum Network: an Overview](https://hackernoon.com/the-world-of-decentralised-exchanges-on-the-ethereum-network-an-overview-ee25fc5f9f)
-
+- [ERC777 Token Standard](https://eips.ethereum.org/EIPS/eip-777)
