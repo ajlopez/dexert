@@ -18,4 +18,5 @@ Decentralized Exchange for Ethereum/RSK Tokens, WIP
 - [The World of Decentralised Exchanges on the Ethereum Network: an Overview](https://hackernoon.com/the-world-of-decentralised-exchanges-on-the-ethereum-network-an-overview-ee25fc5f9f)
 - [ERC777 Token Standard](https://eips.ethereum.org/EIPS/eip-777)
 - [Uniswap](https://twitter.com/haydenzadams/status/1120759500137537539)
+- [StarkDEX: Bringing STARKs to Ethereum](https://blog.0xproject.com/starkdex-bringing-starks-to-ethereum-6a03fffc0eb7)
 
