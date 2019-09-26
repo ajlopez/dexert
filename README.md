@@ -21,4 +21,7 @@ Decentralized Exchange for Ethereum/RSK Tokens, WIP
 - [StarkDEX: Bringing STARKs to Ethereum](https://blog.0xproject.com/starkdex-bringing-starks-to-ethereum-6a03fffc0eb7)
 - [How Is Bancor Different than a DEX?](https://support.bancor.network/hc/en-us/articles/360031143851)
 - [Uniswap is a protocol for automated token exchange on Ethereum](https://uniswap.io)
+- [Compound](https://compound.finance)
+- [dXdY exchange](https://dydx.exchange)
+- [BitMex Isolated and Cross Margin](https://www.bitmex.com/app/isolatedMargin)
 
