@@ -33,3 +33,4 @@ Decentralized Exchange for Ethereum/RSK Tokens, WIP
 - [InstantDapp](https://instadapp.io)
 - [BitMex Isolated and Cross Margin](https://www.bitmex.com/app/isolatedMargin)
 - [Vega is a protocol for creating and trading derivatives on a fully decentralised network](https://vegaprotocol.io)
+- [Zero to DeFi – A beginner’s guide to earning passive income via Compound Finance](https://defipulse.com/blog/zero-to-defi-cdai/)
