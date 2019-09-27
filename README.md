@@ -32,3 +32,4 @@ Decentralized Exchange for Ethereum/RSK Tokens, WIP
 - [Nexus Mutual](https://www.nexusmutual.io)
 - [InstantDapp](https://instadapp.io)
 - [BitMex Isolated and Cross Margin](https://www.bitmex.com/app/isolatedMargin)
+- [Vega is a protocol for creating and trading derivatives on a fully decentralised network](https://vegaprotocol.io)
