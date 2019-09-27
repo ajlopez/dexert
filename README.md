@@ -35,4 +35,4 @@ Decentralized Exchange for Ethereum/RSK Tokens, WIP
 - [Vega is a protocol for creating and trading derivatives on a fully decentralised network](https://vegaprotocol.io)
 - [Zero to DeFi – A beginner’s guide to earning passive income via Compound Finance](https://defipulse.com/blog/zero-to-defi-cdai/)
 - [Executive Vote: Lower the Stability fee by 2% to a total of 10.5% per year](https://blog.makerdao.com/executive-vote-lower-the-stability-fee-by-2-to-a-total-of-10-5-per-year/)
-
+- [Announcing Uniswap Listing](https://medium.com/rcnblog/announcing-uniswap-listing-52679a18068e)
