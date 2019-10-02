@@ -37,3 +37,5 @@ Decentralized Exchange for Ethereum/RSK Tokens, WIP
 - [Executive Vote: Lower the Stability fee by 2% to a total of 10.5% per year](https://blog.makerdao.com/executive-vote-lower-the-stability-fee-by-2-to-a-total-of-10-5-per-year/)
 - [Announcing Uniswap Listing](https://medium.com/rcnblog/announcing-uniswap-listing-52679a18068e)
 - [DeFi Series #1 - Decentralized Cryptoasset Lending & Borrowing](https://info.binance.com/en/research/marketresearch/defi-1.html)
+- [Pantera Leads $5 Million Round for Decentralized Derivatives Market](https://www.coindesk.com/pantera-leads-5-million-round-for-decentralized-derivatives-market)
+
