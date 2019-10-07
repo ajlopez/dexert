@@ -22,6 +22,7 @@ Decentralized Exchange for Ethereum/RSK Tokens, WIP
 - [How Is Bancor Different than a DEX?](https://support.bancor.network/hc/en-us/articles/360031143851)
 - [Uniswap is a protocol for automated token exchange on Ethereum](https://uniswap.io)
 - [McAfeeDEX a decentralized exchange running on the Ethereum blockchain](https://mcafeedex.com)
+- [John McAfee’s Decentralized Crypto Exchange Launches in Beta](https://slack-redir.net/link?url=https%3A%2F%2Fcointelegraph.com%2Fnews%2Fjohn-mcafees-decentralized-crypto-exchange-launches-in-beta)
 
 ## DeFi
 
