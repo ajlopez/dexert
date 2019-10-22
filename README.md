@@ -23,6 +23,8 @@ Decentralized Exchange for Ethereum/RSK Tokens, WIP
 - [Uniswap is a protocol for automated token exchange on Ethereum](https://uniswap.io)
 - [McAfeeDEX a decentralized exchange running on the Ethereum blockchain](https://mcafeedex.com)
 - [John McAfee’s Decentralized Crypto Exchange Launches in Beta](https://slack-redir.net/link?url=https%3A%2F%2Fcointelegraph.com%2Fnews%2Fjohn-mcafees-decentralized-crypto-exchange-launches-in-beta)
+- [A Visual Way to Understand the Pros and Cons of a Decentralized Exchange](https://medium.com/@marcbegins/a-visual-way-to-understand-the-pros-and-cons-of-a-decentralized-exchange-5dd6a0a9fecf)
+- [Thoughts on Decentralized Exchanges and Real World Usage of their own Tokens](https://medium.com/trivial-co/thoughts-on-decentralized-exchanges-and-real-world-usage-of-their-own-tokens-d0a6a16f5d3d)
 
 ## DeFi
 
