@@ -28,6 +28,8 @@ Decentralized Exchange for Ethereum/RSK Tokens, WIP
 - [Thoughts on Decentralized Exchanges and Real World Usage of their own Tokens](https://medium.com/trivial-co/thoughts-on-decentralized-exchanges-and-real-world-usage-of-their-own-tokens-d0a6a16f5d3d)
 - [Decentralized Exchanges: Three Types That Will Be Essential For The Crypto Economy](https://medium.com/totle/decentralized-exchanges-three-types-that-will-be-essential-for-the-crypto-economy-91461b330f50)
 - [The Rise of the Decentralized Exchanges | Part 1](https://medium.com/altcoin-magazine/evaluating-the-rise-of-decentralized-exchange-pt-1-4174113ebad0)
+- [LoopRing, Protocol for Scalable, Non-Custodial Exchanges](https://loopring.org/#/)
+
 
 ## DeFi
 
