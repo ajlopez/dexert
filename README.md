@@ -29,7 +29,7 @@ Decentralized Exchange for Ethereum/RSK Tokens, WIP
 - [Decentralized Exchanges: Three Types That Will Be Essential For The Crypto Economy](https://medium.com/totle/decentralized-exchanges-three-types-that-will-be-essential-for-the-crypto-economy-91461b330f50)
 - [The Rise of the Decentralized Exchanges | Part 1](https://medium.com/altcoin-magazine/evaluating-the-rise-of-decentralized-exchange-pt-1-4174113ebad0)
 - [LoopRing, Protocol for Scalable, Non-Custodial Exchanges](https://loopring.org/#/)
-
+- [Loopring Deployed Protocol 3.0 on Ethereum](https://medium.com/loopring-protocol/loopring-deployed-protocol-3-0-on-ethereum-a33103c9e5bf)
 
 ## DeFi
 
