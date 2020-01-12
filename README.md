@@ -30,6 +30,7 @@ Decentralized Exchange for Ethereum/RSK Tokens, WIP
 - [The Rise of the Decentralized Exchanges | Part 1](https://medium.com/altcoin-magazine/evaluating-the-rise-of-decentralized-exchange-pt-1-4174113ebad0)
 - [LoopRing, Protocol for Scalable, Non-Custodial Exchanges](https://loopring.org/#/)
 - [Loopring Deployed Protocol 3.0 on Ethereum](https://medium.com/loopring-protocol/loopring-deployed-protocol-3-0-on-ethereum-a33103c9e5bf)
+- [Ren Project](https://github.com/renproject/ren/wiki/Introduction)
 
 ## DeFi
 
