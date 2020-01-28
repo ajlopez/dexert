@@ -14,6 +14,7 @@ Decentralized Exchange for Ethereum/RSK Tokens, WIP
 - [CryptoBridge](https://crypto-bridge.org/)
 - [0x](https://0x.org/)
 - [0x Protocol — Building Decentralized Exchanges (…and so much more?)](https://medium.com/trivial-co/0x-protocol-building-decentralized-exchanges-and-so-much-more-e9fbbc9f35ca)
+- [Access all DEX liquidity through 0x API](https://blog.0xproject.com/access-all-dex-liquidity-through-0x-api-d5dd9a45af31)
 - [Awesome Decentralized Finance](https://github.com/ong/awesome-decentralized-finance)
 - [Uniswap and Value Capture in Decentralised Exchange Protocols](https://medium.com/@mika_49129/uniswap-and-value-capture-in-decentralised-exchange-protocols-b8df056eb95e)
 - [The World of Decentralised Exchanges on the Ethereum Network: an Overview](https://hackernoon.com/the-world-of-decentralised-exchanges-on-the-ethereum-network-an-overview-ee25fc5f9f)
