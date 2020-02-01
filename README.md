@@ -32,6 +32,7 @@ Decentralized Exchange for Ethereum/RSK Tokens, WIP
 - [LoopRing, Protocol for Scalable, Non-Custodial Exchanges](https://loopring.org/#/)
 - [Loopring Deployed Protocol 3.0 on Ethereum](https://medium.com/loopring-protocol/loopring-deployed-protocol-3-0-on-ethereum-a33103c9e5bf)
 - [Ren Project](https://github.com/renproject/ren/wiki/Introduction)
+- [Batched Bonding Curves](https://medium.com/@billyrennekamp/batched-bonding-curves-ce69a57d8ae4)
 
 ## DeFi
 
