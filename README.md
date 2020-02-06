@@ -34,6 +34,7 @@ Decentralized Exchange for Ethereum/RSK Tokens, WIP
 - [Ren Project](https://github.com/renproject/ren/wiki/Introduction)
 - [Batched Bonding Curves](https://medium.com/@billyrennekamp/batched-bonding-curves-ce69a57d8ae4)
 - [Lisk DEX](https://medium.com/@jonathangrosdubois/jons-lisk-update-january-2020-3a5030f49c82)
+- [Expanding liquidity available in DeFi Saver with 0x](https://medium.com/defi-saver/expanding-liquidity-available-in-defi-saver-with-0x-7c410c8f944b)
 
 ## DeFi
 
