@@ -36,6 +36,7 @@ Decentralized Exchange for Ethereum/RSK Tokens, WIP
 - [Lisk DEX](https://medium.com/@jonathangrosdubois/jons-lisk-update-january-2020-3a5030f49c82)
 - [Expanding liquidity available in DeFi Saver with 0x](https://medium.com/defi-saver/expanding-liquidity-available-in-defi-saver-with-0x-7c410c8f944b)
 - [DEX.AG aggregator generation 2](https://twitter.com/scott_lew_is/status/1225464449559093248)
+- [Intro to the OasisDEX Protocol](https://github.com/makerdao/developerguides/blob/master/Oasis/intro-to-oasis/intro-to-oasis-maker-otc.md)
 
 ## DeFi
 
