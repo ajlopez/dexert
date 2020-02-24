@@ -18,9 +18,7 @@ contract('Dexert', function (accounts) {
     
     function ordersById(orders, ids) {
         assert.ok(orders);
-        assert.ok(Array.isArray(orders));
-        assert.ok(orders.length);
-        assert.equal(orders[0].length, ids.length);
+        assert.equal(orders.oids.length, ids.length);
 
         const l = ids.length;
         
@@ -28,7 +26,7 @@ contract('Dexert', function (accounts) {
             const id = ids[k];
             
             for (var j = 0; j < l; j++)
-                if (orders[0][j] == id)
+                if (orders.oids[j] == id)
                     break;
                 
             if (j >= l)
@@ -58,17 +56,15 @@ contract('Dexert', function (accounts) {
 
     async function orderExists(dexert, id, account, token, amount, price, buying) {
         const order = await dexert.getOrderById(id);
-        
+
         if (!order)
             return false;
-        
-        assert.equal(order.length, 5);
-        
-        const exists = order[0] == token
-            && order[1] == account
-            && order[2].equals(amount)
-            && order[3].equals(price)
-            && order[4] == buying;
+
+        const exists = order.token == token
+            && order.account == account
+            && order.amount.toNumber() == amount
+            && order.price.toNumber() == price
+            && order.buying == buying;
             
         if (!exists)
             return false;
@@ -76,20 +72,20 @@ contract('Dexert', function (accounts) {
         const ordersByAccount = await dexert.getOrdersByAccount(account);
         
         assert.ok(ordersByAccount);
-        
-        if (!ordersByAccount.length)
+
+        if (!ordersByAccount.oids.length)
             return false;
 
         var existsByAccount = false;
         
-        for (var k = 0; k < ordersByAccount[0].length; k++) {
-            if (ordersByAccount[0][k] != id)
+        for (var k = 0; k < ordersByAccount.oids.length; k++) {
+            if (ordersByAccount.oids[k].toNumber() != id)
                 continue;
             
-            if (ordersByAccount[1][k] == token
-                && ordersByAccount[2][k].equals(amount)
-                && ordersByAccount[3][k].equals(price)
-                && ordersByAccount[4][k] == buying) {
+            if (ordersByAccount.tokens[k] == token
+                && ordersByAccount.amounts[k].toNumber() == amount
+                && ordersByAccount.prices[k].toNumber() == price
+                && ordersByAccount.buyings[k] == buying) {
              
                 existsByAccount = true;
                 
@@ -109,18 +105,18 @@ contract('Dexert', function (accounts) {
         
         assert.ok(ordersByToken);
         
-        if (!ordersByToken.length)
+        if (!ordersByToken.oids.length)
             return false;
 
         var existsByToken = false;
         
-        for (var k = 0; k < ordersByToken[0].length; k++) {
-            if (ordersByToken[0][k] != id)
+        for (var k = 0; k < ordersByToken.oids.length; k++) {
+            if (ordersByToken.oids[k].toNumber() != id)
                 continue;
             
-            if (ordersByToken[1][k] == account
-                && ordersByToken[2][k].equals(amount)
-                && ordersByToken[3][k].equals(price)) {
+            if (ordersByToken.accounts[k] == account
+                && ordersByToken.amounts[k].toNumber() == amount
+                && ordersByToken.prices[k].toNumber() == price) {
              
                 existsByToken = true;
                 
@@ -140,13 +136,11 @@ contract('Dexert', function (accounts) {
         if (!order)
             return false;
         
-        assert.equal(order.length, 5);
-        
-        const empty = order[0] == 0
-            && order[1] == 0
-            && order[2].equals(0)
-            && order[3].equals(0)
-            && order[4] == false;
+        const empty = order.token == 0
+            && order.account == 0
+            && order.amount == 0
+            && order.price == 0
+            && order.buying == false;
             
         return empty;
     }
@@ -215,7 +209,7 @@ contract('Dexert', function (accounts) {
             assert.equal(aliceBalance, 50);
             
             const finalAliceEtherBalance = await web3.eth.getBalance(aliceAccount);
-            assert.ok(initialAliceEtherBalance.add(50).equals(finalAliceEtherBalance));
+            assert.equal(parseInt(initialAliceEtherBalance) + 50, finalAliceEtherBalance);
         });
         
         it('withdraw all balance', async function() {
@@ -337,34 +331,31 @@ contract('Dexert', function (accounts) {
             const orders = await this.dexert.getOrdersByAccount(aliceAccount, { from: bobAccount });
            
             assert.ok(orders);
-            assert.equal(orders.length, 5);
-            assert.equal(orders[0].length, 0);
-            assert.equal(orders[1].length, 0);
-            assert.equal(orders[2].length, 0);
-            assert.equal(orders[3].length, 0);
-            assert.equal(orders[4].length, 0);
+            assert.equal(orders.oids.length, 0);
+            assert.equal(orders.tokens.length, 0);
+            assert.equal(orders.amounts.length, 0);
+            assert.equal(orders.prices.length, 0);
+            assert.equal(orders.buyings.length, 0);
         });
 
         it('buy orders by token', async function() {
             const orders = await this.dexert.getBuyOrdersByToken(this.token.address, { from: aliceAccount });
            
             assert.ok(orders);
-            assert.equal(orders.length, 4);
-            assert.equal(orders[0].length, 0);
-            assert.equal(orders[1].length, 0);
-            assert.equal(orders[2].length, 0);
-            assert.equal(orders[3].length, 0);
+            assert.equal(orders.oids.length, 0);
+            assert.equal(orders.accounts.length, 0);
+            assert.equal(orders.amounts.length, 0);
+            assert.equal(orders.prices.length, 0);
         });
 
         it('sell orders by token', async function() {
             const orders = await this.dexert.getSellOrdersByToken(this.token.address, { from: aliceAccount });
            
             assert.ok(orders);
-            assert.equal(orders.length, 4);
-            assert.equal(orders[0].length, 0);
-            assert.equal(orders[1].length, 0);
-            assert.equal(orders[2].length, 0);
-            assert.equal(orders[3].length, 0);
+            assert.equal(orders.oids.length, 0);
+            assert.equal(orders.accounts.length, 0);
+            assert.equal(orders.amounts.length, 0);
+            assert.equal(orders.prices.length, 0);
         });
         
         it('last order id is zero', async function() {
@@ -377,12 +368,11 @@ contract('Dexert', function (accounts) {
             const order = await this.dexert.getOrderById(1, { from: aliceAccount });
            
             assert.ok(order);
-            assert.ok(order.length);
-            assert.equal(order[0], 0);
-            assert.equal(order[1], 0);
-            assert.equal(order[2], 0);
-            assert.equal(order[3], 0);
-            assert.equal(order[4], 0);
+            assert.equal(order.account, 0);
+            assert.equal(order.token, 0);
+            assert.equal(order.amount, 0);
+            assert.equal(order.price, 0);
+            assert.equal(order.buying, false);
         });
        
         it('buy order', async function () {
@@ -400,7 +390,6 @@ contract('Dexert', function (accounts) {
             assert.equal(lastOrderId, 1);
 
             assert.ok(await orderExists(this.dexert, lastOrderId, aliceAccount, this.token.address, 50, 2, true));
-
             assert.ok(await ordersByAccount(this.dexert, aliceAccount, [ lastOrderId ]));
             assert.ok(await ordersByAccount(this.dexert, bobAccount, []));
 
@@ -459,7 +448,6 @@ contract('Dexert', function (accounts) {
            
             assert.ok(orderDoesNotExist(this.dexert, firstOrderId));           
             assert.ok(orderExists(this.dexert, secondOrderId, this.token.address, aliceAccount, 25, 3, true));
-
             assert.ok(await buyOrdersByToken(this.dexert, this.token.address, [ secondOrderId ]));
             assert.ok(await sellOrdersByToken(this.dexert, this.token.address, []));
         });
@@ -492,9 +480,8 @@ contract('Dexert', function (accounts) {
             const orders = await this.dexert.getSellOrdersByToken(this.token.address);
             
             assert.ok(orders);
-            assert.equal(orders.length, 4);
             
-            assert.equal(orders[0].length, 0);
+            assert.equal(orders.oids.length, 0);
 
             assert.ok(await buyOrdersByToken(this.dexert, this.token.address, []));
             assert.ok(await sellOrdersByToken(this.dexert, this.token.address, []));

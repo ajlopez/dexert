@@ -1,4 +1,4 @@
-pragma solidity ^0.4.24;
+pragma solidity >=0.5.0 <0.6.0;
 
 import "./ERC20.sol";
 import "./SafeMath.sol";
@@ -52,7 +52,7 @@ contract Dexert {
     }
 
     function depositTokens(ERC20 token, uint amount) public returns (bool) {
-        require(token.transferFrom(msg.sender, this, amount));
+        require(token.transferFrom(msg.sender, address(this), amount));
         
         tokenBalances[address(token)][msg.sender].available = tokenBalances[address(token)][msg.sender].available.add(amount);
         
@@ -238,13 +238,13 @@ contract Dexert {
         return true;
     }
     
-    function getOrderById(uint id) public constant returns(address account, address token, uint amount, uint price, bool buying) {
+    function getOrderById(uint id) public view returns(address account, address token, uint amount, uint price, bool buying) {
         Order storage order = ordersById[id];
         
-        return (order.token, order.account, order.amount, order.price, order.buying);
+        return (order.account, order.token, order.amount, order.price, order.buying);
     }
     
-    function getOrdersByAccount(address account) public constant returns(uint[] oids, address[] tokens, uint[] amounts, uint[] prices, bool[] buyings) {
+    function getOrdersByAccount(address account) public view returns(uint[] memory oids, address[] memory tokens, uint[] memory amounts, uint[] memory prices, bool[] memory buyings) {
         uint[] storage ids = ordersByAccount[account];
         uint norders = ids.length;
         
@@ -269,11 +269,11 @@ contract Dexert {
         return (oids, tokens, amounts, prices, buyings);
     }
     
-    function getBuyOrdersByToken(address token) public constant returns(uint[] ids, address[] accounts, uint[] amounts, uint[] prices) {
+    function getBuyOrdersByToken(address token) public view returns(uint[] memory oids, address[] memory accounts, uint[] memory amounts, uint[] memory prices) {
         uint[] storage orders = buyOrdersByToken[token];
         uint norders = orders.length;
         
-        ids = new uint[](norders);
+        oids = new uint[](norders);
         accounts = new address[](norders);
         amounts = new uint[](norders);
         prices = new uint[](norders);
@@ -283,20 +283,20 @@ contract Dexert {
             
             Order storage order = ordersById[id];
             
-            ids[k] = id;
+            oids[k] = id;
             accounts[k] = order.account;
             amounts[k] = order.amount;
             prices[k] = order.price;
         }
         
-        return (ids, accounts, amounts, prices);
+        return (oids, accounts, amounts, prices);
     }
     
-    function getSellOrdersByToken(address token) public constant returns(uint[] ids, address[] accounts, uint[] amounts, uint[] prices) {
+    function getSellOrdersByToken(address token) public view returns(uint[] memory oids, address[] memory accounts, uint[] memory amounts, uint[] memory prices) {
         uint[] storage orders = sellOrdersByToken[token];
         uint norders = orders.length;
         
-        ids = new uint[](norders);
+        oids = new uint[](norders);
         accounts = new address[](norders);
         amounts = new uint[](norders);
         prices = new uint[](norders);
@@ -306,13 +306,13 @@ contract Dexert {
 
             Order storage order = ordersById[id];
             
-            ids[k] = id;
+            oids[k] = id;
             accounts[k] = order.account;
             amounts[k] = order.amount;
             prices[k] = order.price;
         }
         
-        return (ids, accounts, amounts, prices);
+        return (oids, accounts, amounts, prices);
     }
 }
 

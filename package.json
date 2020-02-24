@@ -1,0 +1,17 @@
+{
+  "name": "dexert",
+  "version": "0.0.1",
+  "description": "Decentralized Exchange",
+  "scripts": {
+    "test": "truffle test",
+    "compile": "truffle compile"
+  },
+  "keywords": [
+    "defi"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "truffle": "5.1.14"
+  }
+}
