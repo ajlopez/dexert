@@ -54,4 +54,5 @@ Decentralized Exchange for Ethereum/RSK Tokens, WIP
 - [Announcing Uniswap Listing](https://medium.com/rcnblog/announcing-uniswap-listing-52679a18068e)
 - [DeFi Series #1 - Decentralized Cryptoasset Lending & Borrowing](https://info.binance.com/en/research/marketresearch/defi-1.html)
 - [Pantera Leads $5 Million Round for Decentralized Derivatives Market](https://www.coindesk.com/pantera-leads-5-million-round-for-decentralized-derivatives-market)
+- [An Introduction To Automated Market Makers](https://cipher.substack.com/p/an-introduction-to-automated-market)
 
