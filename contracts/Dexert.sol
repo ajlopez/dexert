@@ -1,4 +1,4 @@
-pragma solidity >=0.5.0 <0.6.0;
+pragma solidity ^0.6.0;
 
 import "./ERC20.sol";
 import "./SafeMath.sol";
@@ -111,9 +111,8 @@ contract Dexert {
             if (ids[k] == id) {
                 if (k != nids - 1)
                     ids[k] = ids[nids - 1];
-                    
-                ids[nids - 1] = 0;
-                ids.length--;
+
+                ids.pop();
                 
                 break;
             }
