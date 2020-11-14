@@ -37,6 +37,7 @@ Decentralized Exchange for Ethereum/RSK Tokens, WIP
 - [Expanding liquidity available in DeFi Saver with 0x](https://medium.com/defi-saver/expanding-liquidity-available-in-defi-saver-with-0x-7c410c8f944b)
 - [DEX.AG aggregator generation 2](https://twitter.com/scott_lew_is/status/1225464449559093248)
 - [Intro to the OasisDEX Protocol](https://github.com/makerdao/developerguides/blob/master/Oasis/intro-to-oasis/intro-to-oasis-maker-otc.md)
+- [DMEX: No-KYC Derivatives DEX With up To 100x Leverage](https://news.bitcoin.com/dmex-no-kyc-derivatives-dex-with-up-to-100x-leverage/)
 
 ## DeFi
 
