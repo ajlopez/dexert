@@ -39,6 +39,7 @@ Decentralized Exchange for Ethereum/RSK Tokens, WIP
 - [Intro to the OasisDEX Protocol](https://github.com/makerdao/developerguides/blob/master/Oasis/intro-to-oasis/intro-to-oasis-maker-otc.md)
 - [DMEX: No-KYC Derivatives DEX With up To 100x Leverage](https://news.bitcoin.com/dmex-no-kyc-derivatives-dex-with-up-to-100x-leverage/)
 - [DEX Deep Dive: Melon Protocol Explained](https://medium.com/swlh/dex-deep-dive-melon-protocol-explained-8975dde78ff7)
+- [New version of 1inch’s DEX aggregator makes it cheaper than Uniswap](https://cointelegraph.com/news/new-version-of-1inch-s-dex-aggregator-makes-it-cheaper-than-uniswap)
 
 ## DeFi
 
