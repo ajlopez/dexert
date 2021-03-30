@@ -43,6 +43,7 @@ Decentralized Exchange for Ethereum/RSK Tokens, WIP
 - [SushiSwap Launches on Avalanche, Bringing Another Leading DEX to Avalanche’s Growing DeFi Ecosystem](https://medium.com/avalancheavax/sushiswap-launches-on-avalanche-bringing-another-leading-dex-to-avalanches-growing-defi-ecosystem-8b84e966251f)
 - [The Past, Present, and Future of Decentralized Exchanges](https://messari.io/article/the-past-present-and-future-of-decentralized-exchanges)
 - [DEX Ranking](https://debank.com/ranking/dex?chart_date=1M&chart_mode=amount)
+- [TEX, the Decentralized Token Exchange](https://smartbitcoininvestor.com/tex-the-decentralized-token-exchange/)
 
 ## DeFi
 
