@@ -44,6 +44,8 @@ Decentralized Exchange for Ethereum/RSK Tokens, WIP
 - [The Past, Present, and Future of Decentralized Exchanges](https://messari.io/article/the-past-present-and-future-of-decentralized-exchanges)
 - [DEX Ranking](https://debank.com/ranking/dex?chart_date=1M&chart_mode=amount)
 - [TEX, the Decentralized Token Exchange](https://smartbitcoininvestor.com/tex-the-decentralized-token-exchange/)
+- [How to Use TEX](https://moneyonchain.com/how-to-use-tex/)
+- [TEX at Github](https://github.com/money-on-chain/sc-moc-decentralized-exchange)
 
 ## DeFi
 
